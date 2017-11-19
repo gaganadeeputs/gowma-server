@@ -1,6 +1,6 @@
 package org.mihy.gowma.model;
 
-public class Role {
+public class Role extends BaseModel {
 
     public Role(){
 

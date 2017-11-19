@@ -75,7 +75,7 @@ CREATE TABLE user_addresses
 (
     id SERIAL PRIMARY KEY,
     user_address__user_id integer REFERENCES gowma_user NOT NULL,
-    user_address__address_code integer REFERENCES address_code NOT NULL,
+    user_address__address_code_id integer REFERENCES address_code NOT NULL,
     user_address__address_type address_type,
     user_address_name VARCHAR NOT NULL,
     user_address__address1  VARCHAR NOT NULL,
