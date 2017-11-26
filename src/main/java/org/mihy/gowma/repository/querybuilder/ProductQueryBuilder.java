@@ -5,8 +5,8 @@
 package org.mihy.gowma.repository.querybuilder;
 
 import org.mihy.gowma.model.search.BaseSearchRequest;
-import org.mihy.gowma.model.search.ProductCategorySearchRequest;
 import org.mihy.gowma.model.search.ProductSearchRequest;
+import org.mihy.gowma.utilities.QueryBuildingUtilities;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 public class ProductQueryBuilder {
 
 
-    private static final String BASE_SELECT_SQL = "SELECT * from product p";
+    private static final String BASE_SELECT_SQL = "SELECT * from product p INNER JOIN unit_of_measure uof ON uof.id=p.product__unit_of_measure_id ";
 
     private static final Double DEFAULT_LOWER_PRICE = 0.0;
     private static final Double DEFAULT_HIGHER_PRICE = 99999999999999.0;
@@ -26,122 +26,48 @@ public class ProductQueryBuilder {
 
         boolean isWhereClauseRequired = true;
         boolean isAndClauseRequired = false;
-        if(productSearchRequest.getInventoryStatus().isPresent()){
+        if(productSearchRequest.getInventoryStatus()!=null){
             searchQuery.append(" INNER JOIN product_inventory pi on pi.inventory__product_id=p.id");
-            String fieldLevelQueryClause = getFieldEqualsQueryClause("pi.inventory__inventory_status", isWhereClauseRequired, isAndClauseRequired);
+            String fieldLevelQueryClause = QueryBuildingUtilities.getEnumFieldEqualsQueryClause("pi.inventory__inventory_status","inventory_status",productSearchRequest.getInventoryStatus().name(), isWhereClauseRequired, isAndClauseRequired);
             isWhereClauseRequired = false;
             isAndClauseRequired = true;
-            preparedStatementValues.add(productSearchRequest.getInventoryStatus().get());
             searchQuery.append(fieldLevelQueryClause);
         }
-        if (productSearchRequest.getName().isPresent()) {
-            String fieldLevelQueryClause = getFieldLikeQueryClause("p.product__name", isWhereClauseRequired, isAndClauseRequired);
+        if (productSearchRequest.getName()!=null) {
+            String fieldLevelQueryClause = QueryBuildingUtilities.getFieldLikeQueryClause("p.product__name", productSearchRequest.getName(), isWhereClauseRequired, isAndClauseRequired);
             isWhereClauseRequired = false;
             isAndClauseRequired = true;
-            preparedStatementValues.add(productSearchRequest.getName().get());
             searchQuery.append(fieldLevelQueryClause);
         }
-        if (productSearchRequest.getCategoryId().isPresent()) {
-            String fieldLevelQueryClause = getFieldEqualsQueryClause("p.product__category_id", isWhereClauseRequired, isAndClauseRequired);
+        if (productSearchRequest.getCategoryId()!=null) {
+            String fieldLevelQueryClause = QueryBuildingUtilities.getFieldEqualsQueryClause("p.product__category_id", isWhereClauseRequired, isAndClauseRequired);
             isWhereClauseRequired = false;
             isAndClauseRequired = true;
-            preparedStatementValues.add(productSearchRequest.getCategoryId().get());
+            preparedStatementValues.add(productSearchRequest.getCategoryId());
             searchQuery.append(fieldLevelQueryClause);
         }
-        if (productSearchRequest.getIsActive().isPresent()) {
-            String fieldLevelQueryClause = getFieldEqualsQueryClause("p.product__is_active", isWhereClauseRequired, isAndClauseRequired);
+        if (productSearchRequest.getIsActive()!=null) {
+            String fieldLevelQueryClause = QueryBuildingUtilities.getFieldEqualsQueryClause("p.product__is_active", isWhereClauseRequired, isAndClauseRequired);
             isWhereClauseRequired = false;
             isAndClauseRequired = true;
-            preparedStatementValues.add(productSearchRequest.getIsActive().get());
+            preparedStatementValues.add(productSearchRequest.getIsActive());
             searchQuery.append(fieldLevelQueryClause);
         }
-        if (productSearchRequest.getLowerPrice().isPresent() || productSearchRequest.getHigherPrice().isPresent() ) {
-            Double lowerPrice = productSearchRequest.getLowerPrice().isPresent() ? productSearchRequest.getLowerPrice().get() : DEFAULT_LOWER_PRICE;
-            Double higherPrice = productSearchRequest.getHigherPrice().isPresent() ? productSearchRequest.getHigherPrice().get() : DEFAULT_HIGHER_PRICE;
-            String fieldLevelQueryClause = getFieldEqualsQueryClause("p.product__price", isWhereClauseRequired, isAndClauseRequired);
+        if (productSearchRequest.getLowerPrice()!=null || productSearchRequest.getHigherPrice()!=null ) {
+            Double lowerPrice = productSearchRequest.getLowerPrice()!=null ? productSearchRequest.getLowerPrice() : DEFAULT_LOWER_PRICE;
+            Double higherPrice = productSearchRequest.getHigherPrice()!=null ? productSearchRequest.getHigherPrice() : DEFAULT_HIGHER_PRICE;
+            String fieldLevelQueryClause = QueryBuildingUtilities.getFieldsBetweenQueryClause("p.product__price", isWhereClauseRequired, isAndClauseRequired);
             preparedStatementValues.add(lowerPrice);
             preparedStatementValues.add(higherPrice);
             searchQuery.append(fieldLevelQueryClause);
         }
 
-        searchQuery.append(buildOrderByClause(productSearchRequest));
-        searchQuery.append(buildPaginationClause(productSearchRequest,preparedStatementValues));
+        searchQuery.append(QueryBuildingUtilities.buildOrderByClause(productSearchRequest,"p.id"));
+        searchQuery.append(QueryBuildingUtilities.buildPaginationClause(productSearchRequest,preparedStatementValues));
         return searchQuery.toString();
     }
 
-    private String buildOrderByClause(BaseSearchRequest searchRequest) {
-        StringBuilder orderByClause = new StringBuilder("ORDER BY ");
-        if(searchRequest.getSorts().isPresent()) {
-            searchRequest.getSorts().get().forEach(sortField -> orderByClause.append("pc.").
-                     append(sortField.getName())
-                    .append(sortField.getSortOrder()));
 
-        }
-        return  orderByClause.toString();
-    }
 
-    private String buildPaginationClause(BaseSearchRequest searchRequest, List preparedStatementValues) {
-        String paginationClause = "OFFSET ? LIMIT ?";
-        int pageNumber = searchRequest.getPageNumber().isPresent() ? searchRequest.getPageNumber().get() : 0;
-        int pageSize = searchRequest.getPageSize().isPresent() ? searchRequest.getPageSize().get() : 20;
-        preparedStatementValues.add(pageNumber);
-        preparedStatementValues.add(pageSize);
-        return paginationClause;
-    }
 
-    private String getFieldEqualsQueryClause(String fieldName, boolean isWhereClauseRequired, boolean isAndClauseRequired) {
-
-        StringBuilder queryExpression = new StringBuilder();
-        queryExpression.append(fieldName + "=?");
-        if (isWhereClauseRequired) {
-            queryExpression.insert(0, " WHERE ");
-        }
-        if (isAndClauseRequired) {
-            queryExpression.insert(0, " AND ");
-        }
-        return queryExpression.toString();
-
-    }
-
-    private String getFieldLikeQueryClause(String fieldName, boolean isWhereClauseRequired, boolean isAndClauseRequired) {
-
-        StringBuilder queryExpression = new StringBuilder();
-        queryExpression.append(fieldName + "'like % ? %'");
-        if (isWhereClauseRequired) {
-            queryExpression.insert(0, " WHERE ");
-        }
-        if (isAndClauseRequired) {
-            queryExpression.insert(0, " AND ");
-        }
-        return queryExpression.toString();
-
-    }
-
-    private String getFieldsGreaterThanOrEqualQueryClause(String fieldName, boolean isWhereClauseRequired, boolean isAndClauseRequired) {
-
-        StringBuilder queryExpression = new StringBuilder();
-        queryExpression.append(fieldName + ">=?");
-        if (isWhereClauseRequired) {
-            queryExpression.insert(0, " WHERE ");
-        }
-        if (isAndClauseRequired) {
-            queryExpression.insert(0, " AND ");
-        }
-        return queryExpression.toString();
-
-    }
-
-    private String getFieldsBetweenQueryClause(String fieldName, boolean isWhereClauseRequired, boolean isAndClauseRequired) {
-
-        StringBuilder queryExpression = new StringBuilder();
-        queryExpression.append(fieldName + "BETWEEN ? AND ?");
-        if (isWhereClauseRequired) {
-            queryExpression.insert(0, " WHERE ");
-        }
-        if (isAndClauseRequired) {
-            queryExpression.insert(0, " AND ");
-        }
-        return queryExpression.toString();
-
-    }
 }

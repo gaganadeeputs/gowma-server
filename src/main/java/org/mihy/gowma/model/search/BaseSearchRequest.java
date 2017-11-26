@@ -11,31 +11,31 @@ import java.util.Optional;
 
 public class BaseSearchRequest {
 
-    private Optional<Integer> pageSize;
-    private Optional<Integer> pageNumber;
-    private Optional<List<SortField>> sorts;
+    private Integer pageSize;
+    private Integer pageNumber;
+    private List<SortField> sorts;
 
-    public Optional<Integer> getPageSize() {
+    public Integer getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(Optional<Integer> pageSize) {
+    public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
 
-    public Optional<Integer> getPageNumber() {
+    public Integer getPageNumber() {
         return pageNumber;
     }
 
-    public void setPageNumber(Optional<Integer> pageNumber) {
+    public void setPageNumber(Integer pageNumber) {
         this.pageNumber = pageNumber;
     }
 
-    public Optional<List<SortField>> getSorts() {
+    public List<SortField> getSorts() {
         return sorts;
     }
 
-    public void setSorts(Optional<List<SortField>> sorts) {
+    public void setSorts(List<SortField> sorts) {
         this.sorts = sorts;
     }
 

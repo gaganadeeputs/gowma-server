@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.mihy.gowma.constants.EndPoints;
 import org.mihy.gowma.model.Product;
 import org.mihy.gowma.model.ProductImage;
+import org.mihy.gowma.model.ProductInventory;
 import org.mihy.gowma.model.User;
 import org.mihy.gowma.model.search.ProductSearchRequest;
 import org.mihy.gowma.service.ProductImageService;
@@ -43,7 +44,7 @@ public class ProductController {
     @GetMapping(EndPoints.Product.PRODUCT_WITH_ID)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Product> getProductById(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId) {
+    public Product getProductById(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId) {
         return productService.get(productId);
     }
 
@@ -120,4 +121,45 @@ public class ProductController {
     }
 
 
+    /*//Product Inventory
+
+    @ApiOperation(value = "Get a list of product images for a product with id")
+    @GetMapping(EndPoints.Product.PRODUCT_INVENTORY)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public ProductInventory getAllProductImagesByProductId(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId) {
+        return productImageService.getAllProductImagesByProductId(productId);
+    }
+
+    @ApiOperation(value = "Create a list of Product Images for a product with id")
+    @PostMapping(EndPoints.Product.PRODUCT_INVENTORY)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductInventory createProductImagesForProductId(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId,
+                                                              @RequestBody List<ProductImage> productImages) {
+        productImages.forEach(productImage -> productImage.setProductId(productId));
+        return productImageService.createForProductId(productId, productImages);
+    }
+
+    @ApiOperation(value = "Update a product by product image id for a product with id")
+    @PutMapping(EndPoints.Product.PRODUCT_INVENTORY_WITH_ID)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public ProductInventory updateProductImageByIdForProductId(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId,
+                                                           @PathVariable(EndPoints.PathVariable.PRODUCT_IMAGE_ID) Integer productImageId,
+                                                           @RequestBody ProductImage productImage) {
+        productImage.setId(productImageId);
+        productImage.setProductId(productId);
+        return productImageService.update(productImage);
+    }
+
+    @ApiOperation(value = "Delete a product image by id for a product id", response = User.class)
+    @DeleteMapping(EndPoints.Product.PRODUCT_INVENTORY_WITH_ID)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProductImageById(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId,
+                                       @PathVariable(EndPoints.PathVariable.PRODUCT_IMAGE_ID) Integer productImageId) {
+        productImageService.deleteByProductIdNId(productId, productImageId);
+    }
+
+*/
 }

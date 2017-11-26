@@ -6,20 +6,41 @@ package org.mihy.gowma.model;
 
 public class Product extends BaseModel {
 
-    private int categoryId;
+    private Integer categoryId;
     private String name;
     private String caption;
     private String description;
     private double price;
     private int viewCount;
-    private boolean isActive;
+    private boolean active;
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     private UnitOfMeasure unitOfMeasure;
 
-    public int getCategoryId() {
+    public UnitOfMeasure getUnitOfMeasure() {
+        return unitOfMeasure;
+    }
+
+    public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure) {
+        this.unitOfMeasure = unitOfMeasure;
+    }
+
+    public Integer getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -55,21 +76,15 @@ public class Product extends BaseModel {
         this.price = price;
     }
 
-    public int getViewCount() {
+    public Integer getViewCount() {
         return viewCount;
     }
 
-    public void setViewCount(int viewCount) {
+    public void setViewCount(Integer viewCount) {
         this.viewCount = viewCount;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
 
-    public void setActive(boolean active) {
-        isActive = active;
-    }
 
 
 }

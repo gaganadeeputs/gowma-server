@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -38,7 +39,7 @@ public class ProductCategoryController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public List<ProductCategory> getProductCategoriesForParent(@RequestParam(value = EndPoints.QueryParam.PARENT_CATEGORY_ID, required = false)
-                                                                       Integer parentCategoryId) {
+                                                                       Optional<Integer> parentCategoryId) {
         return productCategoryService.getProductCategoriesForParentId(parentCategoryId);
     }
 

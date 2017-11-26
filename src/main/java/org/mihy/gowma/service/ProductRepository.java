@@ -5,7 +5,10 @@
 package org.mihy.gowma.service;
 
 import org.mihy.gowma.config.EnumBeanPropParamSource;
+import org.mihy.gowma.exception.GowmaServiceExceptionCode;
+import org.mihy.gowma.exception.GowmaServiceRuntimeException;
 import org.mihy.gowma.model.Product;
+import org.mihy.gowma.model.UnitOfMeasure;
 import org.mihy.gowma.model.search.ProductSearchRequest;
 import org.mihy.gowma.repository.BaseRepository;
 import org.mihy.gowma.repository.ProductImageRepository;
@@ -24,19 +27,22 @@ import java.util.List;
 public class ProductRepository extends BaseRepository {
 
 
-    private final String SELECT_BY_PARENT_CATEGORY_ID = "SELECT * FROM product WHERE product__category_id=:categoryId";
+    private final String SELECT_BY_PARENT_CATEGORY_ID = "SELECT * FROM product p INNER JOIN unit_of_measure uof ON uof.id=p.product__unit_of_measure_id WHERE product__category_id=:categoryId";
 
     private final String INSERT_SQL = "INSERT INTO product(product__category_id, product__unit_of_measure_id, " +
             "product__name, product__price, product__caption, product__description, product__is_active)" +
-            "VALUES (:categoryId, :unitOfMeasure.id,:name, :caption, :price, :description, :isActive)";
+            "VALUES (:categoryId, :unitOfMeasure.id,:name, :price,:caption, :description, :active)";
 
     private final String UPDATE_BY_ID_SQL = "UPDATE product " +
-            "SET product__category_id=:product__category_id, product__unit_of_measure_id=:unitOfMeasure.id, product__name=:name, " +
-            "product__price=:price, product__caption=:caption, product__description=:description,product__is_active=:isActive " +
+            "SET product__category_id=:categoryId, product__unit_of_measure_id=:unitOfMeasure.id, product__name=:name, " +
+            "product__price=:price, product__caption=:caption, product__description=:description,product__is_active=:active " +
             " where id=:id";
 
     private final String SOFT_DELETE_BY_ID_SQL = "UPDATE product " +
             "SET product__is_deleted=true where id=:id";
+
+
+    private final String SELECT_BY_ID = "SELECT * FROM product p INNER JOIN unit_of_measure uof ON uof.id=product__unit_of_measure_id WHERE p.id=:id";
 
     @Autowired
     private ProductQueryBuilder productQueryBuilder;
@@ -44,9 +50,9 @@ public class ProductRepository extends BaseRepository {
     @Autowired
     private ProductImageRepository productImageRepository;
 
-    public List<Product> getProductCategoriesForParentId(Integer parentCategoryId) {
+    public List<Product> getProductCategoriesForParentId(Integer categoryId) {
         final MapSqlParameterSource paramNameToValueMap = new MapSqlParameterSource();
-        paramNameToValueMap.addValue("product_category__parent_id", parentCategoryId);
+        paramNameToValueMap.addValue("categoryId", categoryId);
         List<Product> products = namedParameterJdbcTemplate.query(SELECT_BY_PARENT_CATEGORY_ID, new productRowMapper());
         return products;
     }
@@ -72,12 +78,17 @@ public class ProductRepository extends BaseRepository {
     public List<Product> findAll(ProductSearchRequest productSearchRequest) {
         List<Object> preparedStatementValues = new ArrayList<>();
         String searchQuery = productQueryBuilder.buildSearchQuery(productSearchRequest, preparedStatementValues);
-        List<Product> products = namedParameterJdbcTemplate.getJdbcOperations().query(searchQuery, new productRowMapper());
+        List<Product> products = namedParameterJdbcTemplate.getJdbcOperations().query(searchQuery,preparedStatementValues.toArray(), new productRowMapper());
         return products;
     }
 
-    public List<Product> getById(Integer productId) {
-        return null;
+    public Product getById(Integer productId) {
+        final MapSqlParameterSource paramNameToValueMap = new MapSqlParameterSource();
+        paramNameToValueMap.addValue("id", productId);
+        List<Product> products = namedParameterJdbcTemplate.query(SELECT_BY_ID, paramNameToValueMap, new productRowMapper());
+        if (products.isEmpty())
+            throw new GowmaServiceRuntimeException(GowmaServiceExceptionCode.CFG_GENERIC_INVALID_ID);
+        return products.get(0);
     }
 
     public class productRowMapper implements RowMapper<Product> {
@@ -85,8 +96,17 @@ public class ProductRepository extends BaseRepository {
         @Override
         public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
             Product product = new Product();
-            product.setName(rs.getString("product_category__name"));
-            product.setDescription(rs.getString("product_category__description"));
+            product.setId(rs.getInt("id"));
+            product.setName(rs.getString("product__name"));
+            product.setDescription(rs.getString("product__description"));
+            product.setCaption(rs.getString("product__caption"));
+            product.setPrice(rs.getDouble("product__price"));
+            product.setViewCount(rs.getInt("product__view_count"));
+            product.setActive(rs.getBoolean("product__is_active"));
+            UnitOfMeasure unitOfMeasure = new UnitOfMeasure();
+            unitOfMeasure.setId(rs.getInt("product__unit_of_measure_id"));
+            unitOfMeasure.setName(rs.getString("unit_of_measure__name"));
+            product.setUnitOfMeasure(unitOfMeasure);
             return product;
         }
     }

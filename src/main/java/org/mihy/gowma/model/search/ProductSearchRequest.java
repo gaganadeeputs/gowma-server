@@ -6,77 +6,71 @@ package org.mihy.gowma.model.search;
 
 import org.mihy.gowma.constants.InventoryStatus;
 
-import java.util.Optional;
-
-/**
- * Created by gdeepu on 24/11/17.
- */
 public class ProductSearchRequest extends BaseSearchRequest {
 
-    private Optional<Integer> categoryId;
-    private Optional<String> name;
-    private Optional<Boolean> isActive;
-    private Optional<Double> lowerPrice;
-    private Optional<Double> higherPrice;
-    private Optional<Integer> viewCount;
-    private Optional<InventoryStatus> inventoryStatus;
+    private Integer categoryId;
+    private String name;
+    private Boolean isActive;
+    private Double lowerPrice;
+    private Double higherPrice;
+    private Integer viewCount;
+    private InventoryStatus inventoryStatus;
 
 
-
-    public Optional<Integer> getViewCount() {
+    public Integer getViewCount() {
         return viewCount;
     }
 
-    public void setViewCount(Optional<Integer> viewCount) {
+    public void setViewCount(Integer viewCount) {
         this.viewCount = viewCount;
     }
 
-    public void setCategoryId(Optional<Integer> categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Optional<String> getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Optional<String> name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Optional<Boolean> getIsActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(Optional<Boolean> isActive) {
+    public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
 
-    public Optional<Double> getLowerPrice() {
+    public Double getLowerPrice() {
         return lowerPrice;
     }
 
-    public void setLowerPrice(Optional<Double> lowerPrice) {
+    public void setLowerPrice(Double lowerPrice) {
         this.lowerPrice = lowerPrice;
     }
 
-    public Optional<Double> getHigherPrice() {
+    public Double getHigherPrice() {
         return higherPrice;
     }
 
-    public void setHigherPrice(Optional<Double> higherPrice) {
+    public void setHigherPrice(Double higherPrice) {
         this.higherPrice = higherPrice;
     }
 
-    public Optional<Integer> getCategoryId() {
+    public Integer getCategoryId() {
 
         return categoryId;
     }
 
-    public Optional<InventoryStatus> getInventoryStatus() {
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public InventoryStatus getInventoryStatus() {
         return inventoryStatus;
     }
 
-    public void setInventoryStatus(Optional<InventoryStatus> inventoryStatus) {
+    public void setInventoryStatus(InventoryStatus inventoryStatus) {
         this.inventoryStatus = inventoryStatus;
     }
 }

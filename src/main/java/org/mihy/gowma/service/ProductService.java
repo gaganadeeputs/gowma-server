@@ -19,7 +19,7 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public List<Product> get(Integer productId) {
+    public Product get(Integer productId) {
         return productRepository.getById(productId);
     }
 

@@ -27,18 +27,20 @@ public class ProductImageRepository extends BaseRepository {
     private static final String UPDATE_SQL = "UPDATE  product_images SET product_images__product_id=:productId," +
             " product_images__image_url=:imageUrl, product_images_order_no=:orderNo WHERE id=:id";
 
-    private static final String SOFT_DELETE_BY_PRODUCT_ID = "UPDATE  product_images SET product__images_is_deleted=true where product_images__product_id=:productId";
+    private static final String SOFT_DELETE_BY_PRODUCT_ID = "UPDATE  product_images SET product_images__is_deleted=true where product_images__product_id=:productId";
+
+    private static final String SOFT_DELETE_BY_PRODUCT_ID_AND_ID = "UPDATE  product_images SET product_images__is_deleted=true where product_images__product_id=:productId AND id=:id ";
 
 
     private static final String SOFT_DELETE_BY_ID = "UPDATE product_images SET product__images_is_deleted=true where  id=:id";
 
-    private final String SELECT_BY_PRODUCT_ID = "SELECT *  product_image WHERE product_images__product_id=:productId order by product_images_order_no";
+    private final String SELECT_BY_PRODUCT_ID = "SELECT * from product_images WHERE product_images__product_id=:productId order by product_images_order_no ASC";
 
 
     public List<ProductImage> getByProductId(int productId) {
         final MapSqlParameterSource paramNameToValueMap = new MapSqlParameterSource();
-        paramNameToValueMap.addValue("product_images__product_id", productId);
-        List<ProductImage> productImages = namedParameterJdbcTemplate.query(SELECT_BY_PRODUCT_ID, new ProductImageRowMapper());
+        paramNameToValueMap.addValue("productId", productId);
+        List<ProductImage> productImages = namedParameterJdbcTemplate.query(SELECT_BY_PRODUCT_ID, paramNameToValueMap, new ProductImageRowMapper());
         return productImages;
 
     }
@@ -75,7 +77,11 @@ public class ProductImageRepository extends BaseRepository {
         namedParameterJdbcTemplate.update(SOFT_DELETE_BY_ID, paramNameToValueMap);
     }
 
-    public void deleteByProductIdNId(Integer productId, Integer productId1) {
+    public void deleteByProductIdNId(Integer productId, Integer id) {
+        final MapSqlParameterSource paramNameToValueMap = new MapSqlParameterSource();
+        paramNameToValueMap.addValue("id", id);
+        paramNameToValueMap.addValue("productId", id);
+        namedParameterJdbcTemplate.update(SOFT_DELETE_BY_PRODUCT_ID_AND_ID, paramNameToValueMap);
     }
 
     public class ProductImageRowMapper implements RowMapper<ProductImage> {
@@ -83,6 +89,7 @@ public class ProductImageRepository extends BaseRepository {
         @Override
         public ProductImage mapRow(ResultSet rs, int rowNum) throws SQLException {
             ProductImage productImage = new ProductImage();
+            productImage.setId(rs.getInt("id"));
             productImage.setImageUrl(rs.getString("product_images__image_url"));
             productImage.setOrderNo(rs.getInt("product_images_order_no"));
             return productImage;

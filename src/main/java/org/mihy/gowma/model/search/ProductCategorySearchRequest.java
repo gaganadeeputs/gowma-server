@@ -4,36 +4,34 @@
  */
 package org.mihy.gowma.model.search;
 
-import java.util.Optional;
+public class ProductCategorySearchRequest extends BaseSearchRequest {
 
-public class ProductCategorySearchRequest  extends BaseSearchRequest {
-
-    private Optional<Integer> parentCategoryId;
-    private Optional<String> name;
-    private Optional<Boolean> enabled;
+    private Integer parentCategoryId;
+    private String name;
+    private Boolean enabled;
 
 
-    public Optional<Integer> getParentCategoryId() {
+    public Integer getParentCategoryId() {
         return parentCategoryId;
     }
 
-    public void setParentCategoryId(Optional<Integer> parentCategoryId) {
+    public void setParentCategoryId(Integer parentCategoryId) {
         this.parentCategoryId = parentCategoryId;
     }
 
-    public Optional<String> getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Optional<String> name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Optional<Boolean> getEnabled() {
+    public Boolean getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(Optional<Boolean> enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 }

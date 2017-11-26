@@ -3,8 +3,8 @@
     id SERIAL PRIMARY KEY,
     product_category__parent_id integer REFERENCES product_category,
     product_category__name VARCHAR NOT NULL,
-    product_category__description VARCHAR NOT NULL,
-    product_category__image_url VARCHAR NOT NULL,
+    product_category__description VARCHAR ,
+    product_category__image_url VARCHAR ,
     product_category__order_no integer NOT NULL,
     product_category__enabled boolean NOT NULL DEFAULT FALSE,
     product_category__created_date timestamp default NULL,
@@ -36,11 +36,11 @@ CREATE TABLE product
     product__description VARCHAR NOT NULL,
     product__view_count integer NOT NULL DEFAULT 0,
     product__is_active boolean NOT NULL DEFAULT TRUE,
-    user_detail__created_date timestamp default NULL,
-    user_detail__last_modified_date timestamp default NULL,
-    user_detail__created_by integer REFERENCES gowma_user NULL,
-    user_detail__last_modified_by integer REFERENCES gowma_user NULL,
-    user_detail__is_deleted  boolean NOT NULL DEFAULT FALSE
+    product__created_date timestamp default NULL,
+    product__last_modified_date timestamp default NULL,
+    product__created_by integer REFERENCES gowma_user NULL,
+    product__last_modified_by integer REFERENCES gowma_user NULL,
+    product__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE product_images
@@ -53,7 +53,7 @@ CREATE TABLE product_images
     product_images__last_modified_date timestamp default NULL,
     product_images__created_by integer REFERENCES gowma_user NULL,
     product_images__last_modified_by integer REFERENCES gowma_user NULL,
-    product_images__is_deleted  boolean NOT NULL DEFAULT FALSE
+    product_images__is_deleted boolean NOT NULL DEFAULT FALSE
 );
 
 CREATE TYPE inventory_status AS ENUM ('AVAILABLE', 'OUT_OF_STOCK','ARRAIVING_SOON','PRE-ORDER','TWO-THREE-DAYS');

@@ -1,0 +1,1668 @@
+swagger: '2.0'
+info:
+  description: ' REST APIs for Gowma Online Store'
+  version: '1.0'
+  title: GOWMA service API
+  termsOfService: Terms of service
+  contact:
+    name: Gagan Deep
+    url: 'https://org.mihy.gowma/about/'
+    email: gagandeepts@gmail.com
+  license:
+    name: Apache License Version 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+host: 'localhost:8081'
+basePath: /gowma-service
+tags:
+  - name: offer-controller
+    description: Offer Controller
+  - name: product-controller
+    description: Product Controller
+  - name: tax-detail-controller
+    description: Tax Detail Controller
+  - name: product-category-controller
+    description: Product Category Controller
+  - name: user-controller
+    description: User Controller
+paths:
+  /api/v1/offers:
+    get:
+      tags:
+        - offer-controller
+      summary: Get a list of offers for category and product id
+      operationId: getOffersForCategoryIdNProductIdUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: offer-category-id
+          in: query
+          description: offer-category-id
+          required: true
+          type: integer
+          format: int32
+        - name: offer-product-id
+          in: query
+          description: offer-product-id
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Offer'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - offer-controller
+      summary: Create a offer
+      operationId: createProductUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: offer
+          description: offer
+          required: true
+          schema:
+            $ref: '#/definitions/Offer'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Offer'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/offers/{offer-id}':
+    put:
+      tags:
+        - offer-controller
+      summary: Update a offer by id
+      operationId: updateProductUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: offer-id
+          in: path
+          description: offer-id
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: offer
+          description: offer
+          required: true
+          schema:
+            $ref: '#/definitions/Offer'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Offer'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - offer-controller
+      summary: Delete a offer by id
+      operationId: deleteProductUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: offer-id
+          in: path
+          description: offer-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/v1/product-categories:
+    get:
+      tags:
+        - product-category-controller
+      summary: >-
+        Get a list of product categories for a parent category id if not
+        provided will return all root levels
+      operationId: getProductCategoriesForParentUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProductCategory'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - product-category-controller
+      summary: Create a product category
+      operationId: createProductCategoryUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: productCategory
+          description: productCategory
+          required: true
+          schema:
+            $ref: '#/definitions/ProductCategory'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/ProductCategory'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/product-categories/_search:
+    post:
+      tags:
+        - product-category-controller
+      summary: 'Performs search on product categories '
+      operationId: searchProductCategoriesUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: productCategorySearchRequest
+          description: productCategorySearchRequest
+          required: true
+          schema:
+            $ref: '#/definitions/ProductCategorySearchRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProductCategory'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/product-categories/{product-category-id}':
+    put:
+      tags:
+        - product-category-controller
+      summary: Update a product category by id
+      operationId: updateProductCategoryUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: product-category-id
+          in: path
+          description: product-category-id
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: productCategory
+          description: productCategory
+          required: true
+          schema:
+            $ref: '#/definitions/ProductCategory'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ProductCategory'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - product-category-controller
+      summary: Delete a product with category id
+      operationId: deleteProductCategoryUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: product-category-id
+          in: path
+          description: product-category-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/v1/products:
+    post:
+      tags:
+        - product-controller
+      summary: Create a product
+      operationId: createProductUsingPOST_1
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: product
+          description: product
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Product'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/products/_search:
+    post:
+      tags:
+        - product-controller
+      summary: Performs search on products
+      operationId: searchProductsUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: productSearchRequest
+          description: productSearchRequest
+          required: true
+          schema:
+            $ref: '#/definitions/ProductSearchRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/products/{product-id}':
+    get:
+      tags:
+        - product-controller
+      summary: Get a product by id
+      operationId: getProductByIdUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: product-id
+          in: path
+          description: product-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Product'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - product-controller
+      summary: Update a product with given id
+      operationId: updateProductUsingPUT_1
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: product-id
+          in: path
+          description: product-id
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: product
+          description: product
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Product'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - product-controller
+      summary: Delete a product with id
+      operationId: deleteProductUsingDELETE_1
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: product-id
+          in: path
+          description: product-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/api/v1/products/{product-id}/product-images':
+    get:
+      tags:
+        - product-controller
+      summary: Get a list of product images for a product with id
+      operationId: getAllProductImagesByProductIdUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: product-id
+          in: path
+          description: product-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProductImage'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - product-controller
+      summary: Create a list of Product Images for a product with id
+      operationId: createProductImagesForProductIdUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: product-id
+          in: path
+          description: product-id
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: productImages
+          description: productImages
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProductImage'
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProductImage'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/products/{product-id}/product-images/{product-image-id}':
+    put:
+      tags:
+        - product-controller
+      summary: Update a product by product image id for a product with id
+      operationId: updateProductImageByIdForProductIdUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: product-id
+          in: path
+          description: product-id
+          required: true
+          type: integer
+          format: int32
+        - name: product-image-id
+          in: path
+          description: product-image-id
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: productImage
+          description: productImage
+          required: true
+          schema:
+            $ref: '#/definitions/ProductImage'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ProductImage'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - product-controller
+      summary: Delete a product image by id for a product id
+      operationId: deleteProductImageByIdUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: product-id
+          in: path
+          description: product-id
+          required: true
+          type: integer
+          format: int32
+        - name: product-image-id
+          in: path
+          description: product-image-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/v1/tax-detail:
+    get:
+      tags:
+        - tax-detail-controller
+      summary: Get a list of tax details for category and offer id
+      operationId: getTaxDetailsForCategoryIdNProductIdUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: offer-category-id
+          in: query
+          description: offer-category-id
+          required: true
+          type: integer
+          format: int32
+        - name: offer-product-id
+          in: query
+          description: offer-product-id
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TaxDetail'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - tax-detail-controller
+      summary: Create a tax detail
+      operationId: createTaxDetailUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: taxDetail
+          description: taxDetail
+          required: true
+          schema:
+            $ref: '#/definitions/TaxDetail'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/TaxDetail'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/tax-detail/{tax-detail-id}':
+    put:
+      tags:
+        - tax-detail-controller
+      summary: Update a tax detail by id
+      operationId: updateTaxDetailUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: tax-detail-id
+          in: path
+          description: tax-detail-id
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: taxDetail
+          description: taxDetail
+          required: true
+          schema:
+            $ref: '#/definitions/TaxDetail'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/TaxDetail'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - tax-detail-controller
+      summary: Delete a tax detail by id
+      operationId: deleteTaxDetailUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: tax-detail-id
+          in: path
+          description: tax-detail-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/v1/user:
+    post:
+      tags:
+        - user-controller
+      summary: Create a user
+      operationId: createUserUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          description: user
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/user/{user-id}':
+    get:
+      tags:
+        - user-controller
+      summary: Get a user by id
+      operationId: getUserByIdUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - user-controller
+      summary: Update a user by id
+      operationId: updateUserUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: user
+          description: user
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - user-controller
+      summary: Delete a user by id
+      operationId: deleteUserUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/api/v1/user/{user-id}/addresses':
+    get:
+      tags:
+        - user-controller
+      summary: Get a list of addresses by a user id
+      operationId: getAddressesForUserIdUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserAddress'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - user-controller
+      summary: Add a new address to the user by id
+      operationId: createAddressForUserIdUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: userAddress
+          description: userAddress
+          required: true
+          schema:
+            $ref: '#/definitions/UserAddress'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/UserAddress'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/user/{user-id}/addresses {address-id}':
+    post:
+      tags:
+        - user-controller
+      summary: Update a existing address of user by id
+      operationId: updateAddressForUserIdUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+        - name: address-id
+          in: path
+          description: address-id
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: userAddress
+          description: userAddress
+          required: true
+          schema:
+            $ref: '#/definitions/UserAddress'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/UserAddress'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - user-controller
+      summary: 'Delete a address of a user by id '
+      operationId: deleteAddressForUserIdUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+        - name: address-id
+          in: path
+          description: address-id
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: userAddress
+          description: userAddress
+          required: true
+          schema:
+            $ref: '#/definitions/UserAddress'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/api/v1/user/{user-id}/cart':
+    get:
+      tags:
+        - user-controller
+      summary: Get a list of shopping cart items for a user by user id
+      operationId: getShoppingCartForUserIdUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ShoppingCartItem'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - user-controller
+      summary: Add a shopping cart item to the user
+      operationId: addToShoppingCartUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: shoppingCartItem
+          description: shoppingCartItem
+          required: true
+          schema:
+            $ref: '#/definitions/ShoppingCartItem'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ShoppingCartItem'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/v1/user/{user-id}/product-wish-list':
+    get:
+      tags:
+        - user-controller
+      summary: 'Get user wishlist by user id '
+      operationId: getWishedProductsForUserIdUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - user-controller
+      summary: Clear the whole user wishList
+      operationId: clearUserWishListUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/api/v1/user/{user-id}/product-wish-list/{product-id}':
+    post:
+      tags:
+        - user-controller
+      summary: Add a product with given id to the user
+      operationId: addProductToWishListUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+        - name: product-id
+          in: path
+          description: product-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - user-controller
+      summary: Remove a product with given id from the user
+      operationId: removeProductToWishListUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+        - name: product-id
+          in: path
+          description: product-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/api/v1/user/{user-id}/{shopping-cart-item-id}':
+    put:
+      tags:
+        - user-controller
+      summary: Update a shopping cart item by id for a user
+      operationId: updateShoppingCartItemUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+        - name: shopping-cart-item-id
+          in: path
+          description: shopping-cart-item-id
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: shoppingCartItem
+          description: shoppingCartItem
+          required: true
+          schema:
+            $ref: '#/definitions/ShoppingCartItem'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ShoppingCartItem'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - user-controller
+      summary: Remove a shopping cart item by id for a user
+      operationId: removeFromShoppingCartUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+        - name: shopping-cart-item-id
+          in: path
+          description: shopping-cart-item-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+definitions:
+  AddressCode:
+    type: object
+    properties:
+      code:
+        type: string
+      countryName:
+        type: string
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      placeName:
+        type: string
+      stateName:
+        type: string
+  Offer:
+    type: object
+    properties:
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      name:
+        type: string
+      percentage:
+        type: number
+        format: double
+      validFrom:
+        type: string
+        format: date-time
+      validTo:
+        type: string
+        format: date-time
+  Product:
+    type: object
+    properties:
+      active:
+        type: boolean
+      caption:
+        type: string
+      categoryId:
+        type: integer
+        format: int32
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      description:
+        type: string
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      name:
+        type: string
+      price:
+        type: number
+        format: double
+      unitOfMeasure:
+        $ref: '#/definitions/UnitOfMeasure'
+      viewCount:
+        type: integer
+        format: int32
+  ProductCategory:
+    type: object
+    properties:
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      description:
+        type: string
+      enabled:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      imgUrl:
+        type: string
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      name:
+        type: string
+      orderNo:
+        type: integer
+        format: int32
+      parentCategoryId:
+        type: integer
+        format: int32
+  ProductCategorySearchRequest:
+    type: object
+    properties:
+      enabled:
+        type: boolean
+      name:
+        type: string
+      pageNumber:
+        type: integer
+        format: int32
+      pageSize:
+        type: integer
+        format: int32
+      parentCategoryId:
+        type: integer
+        format: int32
+      sorts:
+        type: array
+        items:
+          $ref: '#/definitions/SortField'
+  ProductImage:
+    type: object
+    properties:
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      imageUrl:
+        type: string
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      orderNo:
+        type: integer
+        format: int32
+      productId:
+        type: integer
+        format: int32
+  ProductSearchRequest:
+    type: object
+    properties:
+      categoryId:
+        type: integer
+        format: int32
+      higherPrice:
+        type: number
+        format: double
+      inventoryStatus:
+        type: string
+        enum:
+          - AVAILABLE
+          - OUT_OF_STOCK
+      isActive:
+        type: boolean
+      lowerPrice:
+        type: number
+        format: double
+      name:
+        type: string
+      pageNumber:
+        type: integer
+        format: int32
+      pageSize:
+        type: integer
+        format: int32
+      sorts:
+        type: array
+        items:
+          $ref: '#/definitions/SortField'
+      viewCount:
+        type: integer
+        format: int32
+  Role:
+    type: object
+    properties:
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      name:
+        type: string
+  ShoppingCartItem:
+    type: object
+    properties:
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      product:
+        $ref: '#/definitions/Product'
+      quantity:
+        type: number
+        format: double
+  SortField:
+    type: object
+    properties:
+      name:
+        type: string
+      sortOrder:
+        type: string
+        enum:
+          - ASC
+          - DESC
+  TaxDetail:
+    type: object
+    properties:
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      percentage:
+        type: number
+        format: double
+      taxType:
+        $ref: '#/definitions/TaxType'
+  TaxType:
+    type: object
+    properties:
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      name:
+        type: string
+      percent:
+        type: number
+        format: double
+  UnitOfMeasure:
+    type: object
+    properties:
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      name:
+        type: string
+  User:
+    type: object
+    properties:
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      email:
+        type: string
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      mobileNo:
+        type: string
+      password:
+        type: string
+      roles:
+        type: array
+        items:
+          $ref: '#/definitions/Role'
+      status:
+        type: string
+        enum:
+          - ACTIVE
+          - INACTIVE
+      userDetail:
+        $ref: '#/definitions/UserDetail'
+  UserAddress:
+    type: object
+    properties:
+      address1:
+        type: string
+      address2:
+        type: string
+      addressCode:
+        $ref: '#/definitions/AddressCode'
+      addressName:
+        type: string
+      addressType:
+        type: string
+        enum:
+          - OFFICE
+          - HOME
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      default:
+        type: boolean
+      deleted:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      landmark:
+        type: string
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      phoneNo:
+        type: string
+      userId:
+        type: integer
+        format: int32
+  UserDetail:
+    type: object
+    properties:
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      fname:
+        type: string
+      gender:
+        type: string
+        enum:
+          - MALE
+          - FEMALE
+          - OTHER
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      lname:
+        type: string
+      userId:
+        type: integer
+        format: int32
