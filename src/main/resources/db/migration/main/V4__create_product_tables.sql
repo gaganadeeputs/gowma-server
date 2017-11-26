@@ -1,6 +1,4 @@
-﻿
-
-CREATE TABLE product_category
+﻿CREATE TABLE product_category
  (
     id SERIAL PRIMARY KEY,
     product_category__parent_id integer REFERENCES product_category,
@@ -77,7 +75,7 @@ CREATE TABLE tax_type
 (
     id SERIAL PRIMARY KEY,
     tax_type__name VARCHAR NOT NULL,
-    tax_type__percent integer NOT NULL DEFAULT 0,
+    tax_type__percent  NUMERIC(10, 2)  NULL,
     tax_type__created_date timestamp default NULL,
     tax_type__last_modified_date timestamp default NULL,
     tax_type__created_by integer REFERENCES gowma_user NULL,
@@ -85,11 +83,13 @@ CREATE TABLE tax_type
     tax_type__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE product_tax_details
+CREATE TABLE tax_details
 (
     id SERIAL PRIMARY KEY,
     product_tax_detail__product_id integer REFERENCES product NOT NULL,
+    product_tax_detail__category_id integer REFERENCES product_category NOT NULL,
     product_tax_details__tax_type_id integer REFERENCES tax_type NOT NULL,
+    product_tax_details__tax_percentage  NUMERIC(10, 2)  NULL,
     product_tax_details__created_date timestamp default NULL,
     product_tax_details__last_modified_date timestamp default NULL,
     product_tax_details__created_by integer REFERENCES gowma_user NULL,
@@ -97,52 +97,53 @@ CREATE TABLE product_tax_details
     product_tax_details__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE product_offer
+CREATE TABLE offer
 (
     id SERIAL PRIMARY KEY,
-    product_offer__name VARCHAR NOT NULL,
-    product_offer__percenatge VARCHAR NOT NULL,
-    product_offer__valid_from timestamp default NULL,
-    product_offer__valid_to timestamp default NULL,
-    product_offer__created_date timestamp default NULL,
-    product_offer__last_modified_date timestamp default NULL,
-    product_offer__created_by integer REFERENCES gowma_user NULL,
-    product_offer__last_modified_by integer REFERENCES gowma_user NULL,
-    product_offer__is_deleted  boolean NOT NULL DEFAULT FALSE
+    offer__name VARCHAR NOT NULL,
+    offer__percenatge VARCHAR NOT NULL,
+    offer__valid_from timestamp default NULL,
+    offer__valid_to timestamp default NULL,
+    offer__created_date timestamp default NULL,
+    offer__last_modified_date timestamp default NULL,
+    offer__created_by integer REFERENCES gowma_user NULL,
+    offer__last_modified_by integer REFERENCES gowma_user NULL,
+    offer__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE product_offer_mapping
+CREATE TABLE offer_mapping
 (
     id SERIAL PRIMARY KEY,
-    product_offer_mapping__product_id integer REFERENCES product NOT NULL,
-    product_offer__product_offer_id integer REFERENCES product_offer NOT NULL,
-    product_offer_mapping__created_date timestamp default NULL,
-    product_offer_mapping__last_modified_date timestamp default NULL,
-    product_offer_mapping__created_by integer REFERENCES gowma_user NULL,
-    product_offer_mapping__last_modified_by integer REFERENCES gowma_user NULL,
-    product_offer_mapping__is_deleted  boolean NOT NULL DEFAULT FALSE
+    offer_mapping__product_id integer REFERENCES product NOT NULL,
+    offer_mapping__offer_id integer REFERENCES offer NOT NULL,
+    offer_mapping__category_id integer REFERENCES product_category NOT NULL,
+    offer_mapping__created_date timestamp default NULL,
+    offer_mapping__last_modified_date timestamp default NULL,
+    offer_mapping__created_by integer REFERENCES gowma_user NULL,
+    offer_mapping__last_modified_by integer REFERENCES gowma_user NULL,
+    offer_mapping__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE product_whilist
+CREATE TABLE user_product_whilist
 (
     id SERIAL PRIMARY KEY,
-    product_whilist__user_id integer REFERENCES gowma_user NOT NULL,
-    product_whilist__product_id integer REFERENCES product NOT NULL,
-    product_whilist__created_date timestamp default NULL,
-    product_whilist__last_modified_date timestamp default NULL,
-    product_whilist__created_by integer REFERENCES gowma_user NULL,
-    product_whilist__last_modified_by integer REFERENCES gowma_user NULL,
-    product_whilist__is_deleted  boolean NOT NULL DEFAULT FALSE
+    user_product_whilist__user_id integer REFERENCES gowma_user NOT NULL,
+    user_product_whilist__product_id integer REFERENCES product NOT NULL,
+    user_product_whilist__created_date timestamp default NULL,
+    user_product_whilist__last_modified_date timestamp default NULL,
+    user_product_whilist__created_by integer REFERENCES gowma_user NULL,
+    user_product_whilist__last_modified_by integer REFERENCES gowma_user NULL,
+    user_product_whilist__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE cart_list
+CREATE TABLE user_cart_list
 (
     id SERIAL PRIMARY KEY,
-    cart_list__user_id integer REFERENCES gowma_user NOT NULL,
-    cart_list__product_id integer REFERENCES product NOT NULL,
-    cart_list__quantity integer NOT NULL,
-    cart_list__last_modified_date timestamp default NULL,
-    cart_list__created_by integer REFERENCES gowma_user NULL,
-    cart_list__last_modified_by integer REFERENCES gowma_user NULL,
-    cart_list__is_deleted  boolean NOT NULL DEFAULT FALSE
+    user_cart_list__user_id integer REFERENCES gowma_user NOT NULL,
+    user_cart_list__product_id integer REFERENCES product NOT NULL,
+    user_cart_list__quantity NUMERIC(10, 2) NOT NULL,
+    user_cart_list__last_modified_date timestamp default NULL,
+    user_cart_list__created_by integer REFERENCES gowma_user NULL,
+    user_cart_list__last_modified_by integer REFERENCES gowma_user NULL,
+    user_cart_list__is_deleted  boolean NOT NULL DEFAULT FALSE
 );

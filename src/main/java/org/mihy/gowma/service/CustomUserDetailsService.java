@@ -1,21 +1,23 @@
+/*
+ * Copyright 2017 mihy,org.
+ * All rights reserved.
+ */
 package org.mihy.gowma.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by gdeepu on 19/11/17.
- */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
 
-    @Autowired
-    public CustomUserDetailsService(UserService userService) {
+    private UserService userService;
+
+
+    // a setter method to inject the dependency.
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 

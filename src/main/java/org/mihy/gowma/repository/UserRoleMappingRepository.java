@@ -1,6 +1,11 @@
+/*
+ * Copyright 2017 mihy,org.
+ * All rights reserved.
+ */
 package org.mihy.gowma.repository;
 
 import org.mihy.gowma.model.Role;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -9,12 +14,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by gdeepu on 19/11/17.
- */
+
 @Repository
 public class UserRoleMappingRepository extends BaseRepository {
 
+
+    private static final String INSERT_SQL = "INSERT INTO  user_role_mapping(user_role_mapping__user_id,user_role_mapping__role_id) " +
+            "values(:userId,:userRoleId )";
     private static final String SOFT_DELETE_BY_USER_ID_SQL = "UPDATE user_role_mapping" +
             "SET user_role_mapping__is_deleted=true" +
             "WHERE user_role_mapping__user_id=:userId";
@@ -42,5 +48,18 @@ public class UserRoleMappingRepository extends BaseRepository {
             }
         });
         return roles;
+    }
+
+
+    public void createMappingForUser(int userId, Integer userRoleId) {
+
+        try {
+            final MapSqlParameterSource params = new MapSqlParameterSource();
+            params.addValue("userId", userId);
+            params.addValue("userRoleId", userRoleId);
+            namedParameterJdbcTemplate.update(INSERT_SQL, params);
+        } catch (DuplicateKeyException dke) {
+            throw dke;
+        }
     }
 }

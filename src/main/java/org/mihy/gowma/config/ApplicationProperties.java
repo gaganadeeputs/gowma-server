@@ -1,5 +1,6 @@
-/* Copyright 2017 Mihy, Inc.
-* All rights reserved.
+/*
+ * Copyright 2017 mihy,org.
+ * All rights reserved.
  */
 package org.mihy.gowma.config;
 

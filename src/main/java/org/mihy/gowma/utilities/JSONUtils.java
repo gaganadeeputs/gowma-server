@@ -1,3 +1,7 @@
+/*
+ * Copyright 2017 mihy,org.
+ * All rights reserved.
+ */
 package org.mihy.gowma.utilities;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -6,12 +10,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.util.List;
 
-/**
- * Created by gdeepu on 19/11/17.
- */
 public final class JSONUtils {
     private static JsonMapper defaultMapper = JsonMapper.getDefault();
     private static JsonMapper mapperWithFormatting;
+
+    static {
+        mapperWithFormatting = JsonMapper.getDefault().configure(SerializationFeature.INDENT_OUTPUT, true);
+    }
 
     private JSONUtils() {
     }
@@ -35,7 +40,7 @@ public final class JSONUtils {
         Class[] var4 = classesToConfigure;
         int var5 = classesToConfigure.length;
 
-        for(int var6 = 0; var6 < var5; ++var6) {
+        for (int var6 = 0; var6 < var5; ++var6) {
             Class classToConfigure = var4[var6];
             mapper.getMapper().addMixIn(classToConfigure, mixinSource);
         }
@@ -59,10 +64,6 @@ public final class JSONUtils {
 
     public static <T> List<T> fromJSONList(String json, Class<T> type) {
         JavaType javaType = defaultMapper.getMapper().getTypeFactory().constructParametrizedType(List.class, List.class, new Class[]{type});
-        return (List)defaultMapper.fromJSON(json, javaType);
-    }
-
-    static {
-        mapperWithFormatting = JsonMapper.getDefault().configure(SerializationFeature.INDENT_OUTPUT, true);
+        return (List) defaultMapper.fromJSON(json, javaType);
     }
 }

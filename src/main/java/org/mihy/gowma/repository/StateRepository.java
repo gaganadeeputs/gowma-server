@@ -1,10 +1,11 @@
+/*
+ * Copyright 2017 mihy,org.
+ * All rights reserved.
+ */
 package org.mihy.gowma.repository;
 
 import org.springframework.stereotype.Repository;
 
-/**
- * Created by gdeepu on 19/11/17.
- */
 @Repository
-public class StateRepository {
+public class StateRepository extends BaseRepository {
 }

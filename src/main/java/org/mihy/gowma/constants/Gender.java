@@ -1,11 +1,19 @@
+/*
+ * Copyright 2017 mihy,org.
+ * All rights reserved.
+ */
 package org.mihy.gowma.constants;
 
-/**
- * Created by gdeepu on 19/11/17.
- */
 
 public  enum Gender {
     MALE,
     FEMALE,
-    OTHER
+    OTHER;
+
+    public static Gender lookup(String name){
+        if(name == null){
+            return null;
+        }
+        return Gender.valueOf(name);
+    }
 }

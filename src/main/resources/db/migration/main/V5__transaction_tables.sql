@@ -1,9 +1,9 @@
-﻿CREATE TYPE order_status AS ENUM ('PLACED', 'OUT_OF_STOCK','ARRAIVING_SOON','PRE-ORDER','TWO-THREE-DAYS');
+﻿CREATE TYPE order_status AS ENUM ('PLACED', 'PROCESSED');
 CREATE TABLE gowma_order
 (
     id SERIAL PRIMARY KEY,
     gowma_order__no  VARCHAR NOT NULL,
-    gowma_order__date integer REFERENCES ui_action NOT NULL,
+    gowma_order__date timestamp NOT NULL,
     gowma_order__status order_status NOT NULL,
     gowma_order__created_date timestamp default NULL,
     gowma_order__last_modified_date timestamp default NULL,
@@ -17,8 +17,8 @@ CREATE TABLE order_details
     id SERIAL PRIMARY KEY,
     order_details__order_id integer REFERENCES gowma_order NOT NULL,
     order_details__product_id integer REFERENCES product NOT NULL,
-    order_details__offer_id integer REFERENCES product_offer NOT NULL,
-    order_details__quantity integer NOT NULL,
+    order_details__offer_id integer REFERENCES offer NOT NULL,
+    order_details__quantity NUMERIC(10, 2) NOT NULL,
     order_details__unit_price NUMERIC(10, 2) NOT NULL,
     order_details__total_amount NUMERIC(10, 2) NOT NULL,
     order_details__created_date timestamp default NULL,
@@ -55,8 +55,6 @@ CREATE TABLE order_transaction
     order_transaction__last_modified_by integer REFERENCES gowma_user NULL,
     order_transaction__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
-
-
 
 CREATE TYPE shipping_status AS ENUM ('TRANSIT', 'DISPATCHED','DELIVERED');
 CREATE TABLE order_shipping_detail

@@ -1,10 +1,13 @@
+/*
+ * Copyright 2017 mihy,org.
+ * All rights reserved.
+ */
 package org.mihy.gowma.repository;
 
 import org.mihy.gowma.config.EnumBeanPropParamSource;
 import org.mihy.gowma.constants.AddressType;
-import org.mihy.gowma.constants.Gender;
 import org.mihy.gowma.model.AddressCode;
-import org.mihy.gowma.model.User;
+import org.mihy.gowma.model.UserAddress;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -38,13 +41,12 @@ public class UserAddressRepository extends BaseRepository {
     private static final String SOFT_DELETE_BY_USER_ID_SQL = "UPADTE  user_addresses set user_detail__is_deleted=true where user_address__user_id=:userId";
 
 
-
-    public List<User.UserAddress> create(List<User.UserAddress> userAddresses) {
-            userAddresses.forEach(userAddress -> create(userAddress));
-            return userAddresses;
+    public List<UserAddress> create(List<UserAddress> userAddresses) {
+        userAddresses.forEach(userAddress -> create(userAddress));
+        return userAddresses;
     }
 
-    public User.UserAddress create(User.UserAddress userAddress) {
+    public UserAddress create(UserAddress userAddress) {
         try {
             super.insert(userAddress, INSERT_SQL, new EnumBeanPropParamSource(userAddress));
         } catch (DuplicateKeyException dke) {
@@ -53,12 +55,12 @@ public class UserAddressRepository extends BaseRepository {
         return userAddress;
     }
 
-    public List<User.UserAddress> update(List<User.UserAddress> userAddresses) {
+    public List<UserAddress> update(List<UserAddress> userAddresses) {
         userAddresses.forEach(userAddress -> update(userAddress));
         return userAddresses;
     }
 
-    public User.UserAddress update(User.UserAddress userAddress) {
+    public UserAddress update(UserAddress userAddress) {
         try {
             namedParameterJdbcTemplate.update(UPDATE_BY_USER_ID_SQL, new EnumBeanPropParamSource(userAddress));
         } catch (DuplicateKeyException dke) {
@@ -70,18 +72,18 @@ public class UserAddressRepository extends BaseRepository {
     public void deleteForUserId(int userId) {
 
         final MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("userId",userId);
-        namedParameterJdbcTemplate.update(SOFT_DELETE_BY_USER_ID_SQL,params);
+        params.addValue("userId", userId);
+        namedParameterJdbcTemplate.update(SOFT_DELETE_BY_USER_ID_SQL, params);
     }
 
-    public List<User.UserAddress> getByUserId(int userId) {
+    public List<UserAddress> getByUserId(int userId) {
 
         final MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("userId",userId);
-        List<User.UserAddress> userAddresses = namedParameterJdbcTemplate.query(SELECT_BY_USER_ID_SQL, params, new RowMapper<User.UserAddress>() {
+        params.addValue("userId", userId);
+        List<UserAddress> userAddresses = namedParameterJdbcTemplate.query(SELECT_BY_USER_ID_SQL, params, new RowMapper<UserAddress>() {
             @Override
-            public User.UserAddress mapRow(ResultSet resultSet, int i) throws SQLException {
-                User.UserAddress userAddress = new User.UserAddress();
+            public UserAddress mapRow(ResultSet resultSet, int i) throws SQLException {
+                UserAddress userAddress = new UserAddress();
                 userAddress.setId(resultSet.getInt("id"));
                 AddressCode addressCode = new AddressCode();
                 addressCode.setCode(resultSet.getString("address_code__code"));

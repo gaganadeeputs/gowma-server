@@ -88,6 +88,16 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		return dataSource;
 	}
 
+	/*@Bean
+	public DataSource dataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("org.postgresql.Driver");
+		dataSource.setUrl("jdbc:postgresql://gowma.cwynmbojexhg.us-west-2.rds.amazonaws.com:5432/gowma");
+		dataSource.setUsername("gowma");
+		dataSource.setPassword("MobileIron,2017");
+		return dataSource;
+	}*/
+
 	@Bean
 	public TokenEnhancer tokenEnhancer() {
 		return new CustomTokenEnhancer();

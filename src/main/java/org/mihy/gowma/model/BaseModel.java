@@ -1,12 +1,15 @@
+/*
+ * Copyright 2017 mihy,org.
+ * All rights reserved.
+ */
 package org.mihy.gowma.model;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-/**
- * Created by gdeepu on 18/11/17.
- */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseModel implements Serializable {
 
     private int id;
@@ -16,9 +19,10 @@ public class BaseModel implements Serializable {
     private Integer lastModifiedBy;
     private boolean isDeleted;
 
-    public BaseModel(){
+    public BaseModel() {
 
     }
+
     public int getId() {
         return id;
     }

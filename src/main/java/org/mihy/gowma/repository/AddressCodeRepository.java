@@ -1,7 +1,8 @@
+/*
+ * Copyright 2017 mihy,org.
+ * All rights reserved.
+ */
 package org.mihy.gowma.repository;
 
-/**
- * Created by gdeepu on 19/11/17.
- */
-public class AddressCodeRepository {
+public class AddressCodeRepository extends BaseRepository {
 }

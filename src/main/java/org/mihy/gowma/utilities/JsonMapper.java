@@ -1,3 +1,7 @@
+/*
+ * Copyright 2017 mihy,org.
+ * All rights reserved.
+ */
 package org.mihy.gowma.utilities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,14 +14,17 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import java.io.StringWriter;
 
-/**
- * Created by gdeepu on 19/11/17.
- */
+
 public class JsonMapper {
     private final ObjectMapper mapper = new ObjectMapper();
 
     public JsonMapper() {
         this.mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+    }
+
+    public static JsonMapper getDefault() {
+        JsonMapper m = (new JsonMapper()).configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, false).configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false).configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+        return m;
     }
 
     public ObjectMapper getMapper() {
@@ -66,10 +73,5 @@ public class JsonMapper {
     public JsonMapper configure(DeserializationFeature f, boolean state) {
         this.mapper.configure(f, state);
         return this;
-    }
-
-    public static JsonMapper getDefault() {
-        JsonMapper m = (new JsonMapper()).configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, false).configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false).configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
-        return m;
     }
 }

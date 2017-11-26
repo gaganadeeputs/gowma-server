@@ -2,9 +2,9 @@
 CREATE TABLE gowma_user
  (
     id SERIAL PRIMARY KEY,
-    gowma_user__email VARCHAR NOT NULL,
-    gowma_user__mobile_no VARCHAR NOT NULL,
-    gowma_user__password_hash VARCHAR NOT NULL,
+    gowma_user__email VARCHAR NULL,
+    gowma_user__mobile_no VARCHAR NULL ,
+    gowma_user__password_hash VARCHAR  NULL,
     gowma_user__status status NOT NULL,
     gowma_user__created_date timestamp default NULL,
     gowma_user__last_modified_date timestamp default NULL,
@@ -59,9 +59,9 @@ CREATE TABLE user_detail
 (
     id SERIAL PRIMARY KEY,
     user_detail_user_id integer REFERENCES gowma_user NOT NULL,
-    user_detail_fname VARCHAR NOT NULL,
-    user_detail_lname VARCHAR NOT NULL,
-    user_detail_gender gender NOT NULL,
+    user_detail_fname VARCHAR  NULL,
+    user_detail_lname VARCHAR  NULL,
+    user_detail_gender gender  NULL,
     user_detail__created_date timestamp default NULL,
     user_detail__last_modified_date timestamp default NULL,
     user_detail__created_by integer REFERENCES gowma_user NULL,
@@ -89,12 +89,6 @@ CREATE TABLE user_addresses
     user_address__last_modified_by integer REFERENCES gowma_user NULL,
     user_detail__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
-
-
-
-
-
-
 
 CREATE TABLE role
 (

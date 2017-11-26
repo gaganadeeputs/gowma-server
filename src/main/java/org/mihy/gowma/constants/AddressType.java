@@ -1,8 +1,10 @@
+/*
+ * Copyright 2017 mihy,org.
+ * All rights reserved.
+ */
 package org.mihy.gowma.constants;
 
-/**
- * Created by gdeepu on 19/11/17.
- */
+
 public enum AddressType {
     OFFICE,
     HOME

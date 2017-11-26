@@ -1,3 +1,7 @@
+/*
+ * Copyright 2017 mihy,org.
+ * All rights reserved.
+ */
 package org.mihy.gowma.repository;
 
 import org.mihy.gowma.model.BaseModel;
@@ -7,21 +11,19 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
 
-/**
- * Created by gdeepu on 19/11/17.
- */
+@Repository
 public class BaseRepository {
 
+    private final String idColumnName = "id";
     @Autowired
     protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private final String idColumnName="id";
     public int insert(final BaseModel domain, final String insertSQL, final SqlParameterSource paramSource
-                      ) {
-        return insert(domain,insertSQL,paramSource,true);
+    ) {
+        return insert(domain, insertSQL, paramSource, true);
     }
 
     public int insert(final BaseModel domain, final String insertSQL, final SqlParameterSource paramSource,

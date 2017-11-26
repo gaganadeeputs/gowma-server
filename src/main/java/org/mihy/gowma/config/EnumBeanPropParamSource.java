@@ -2,9 +2,6 @@ package org.mihy.gowma.config;
 
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
-/**
- * Created by gdeepu on 19/11/17.
- */
 public class EnumBeanPropParamSource extends BeanPropertySqlParameterSource {
 
     public EnumBeanPropParamSource(final Object domain) {
