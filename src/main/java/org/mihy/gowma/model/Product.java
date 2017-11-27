@@ -11,12 +11,9 @@ public class Product extends BaseModel {
     private String caption;
     private String description;
     private double price;
-    private int viewCount;
+    private Integer viewCount;
     private boolean active;
-
-    public void setViewCount(int viewCount) {
-        this.viewCount = viewCount;
-    }
+    private UnitOfMeasure unitOfMeasure;
 
     public boolean isActive() {
         return active;
@@ -25,8 +22,6 @@ public class Product extends BaseModel {
     public void setActive(boolean active) {
         this.active = active;
     }
-
-    private UnitOfMeasure unitOfMeasure;
 
     public UnitOfMeasure getUnitOfMeasure() {
         return unitOfMeasure;
@@ -83,8 +78,6 @@ public class Product extends BaseModel {
     public void setViewCount(Integer viewCount) {
         this.viewCount = viewCount;
     }
-
-
 
 
 }

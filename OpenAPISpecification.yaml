@@ -153,9 +153,7 @@ paths:
     get:
       tags:
         - product-category-controller
-      summary: >-
-        Get a list of product categories for a parent category id if not
-        provided will return all root levels
+      summary: Get a list of product categories for a parent category id if not provided will return all root levels
       operationId: getProductCategoriesForParentUsingGET
       consumes:
         - application/json
@@ -941,12 +939,6 @@ paths:
           required: true
           type: integer
           format: int32
-        - in: body
-          name: userAddress
-          description: userAddress
-          required: true
-          schema:
-            $ref: '#/definitions/UserAddress'
       responses:
         '204':
           description: No Content
@@ -1019,6 +1011,29 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+    delete:
+      tags:
+        - user-controller
+      summary: Clear the whole cart list for user
+      operationId: clearAllShoppingCartListForUserUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: user-id
+          in: path
+          description: user-id
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
   '/api/v1/user/{user-id}/product-wish-list':
     get:
       tags:
@@ -1042,7 +1057,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Product'
+              $ref: '#/definitions/UserWishedProduct'
         '401':
           description: Unauthorized
         '403':
@@ -1472,6 +1487,9 @@ definitions:
       quantity:
         type: number
         format: double
+      userId:
+        type: integer
+        format: int32
   SortField:
     type: object
     properties:
@@ -1663,6 +1681,31 @@ definitions:
         format: date-time
       lname:
         type: string
+      userId:
+        type: integer
+        format: int32
+  UserWishedProduct:
+    type: object
+    properties:
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      product:
+        $ref: '#/definitions/Product'
       userId:
         type: integer
         format: int32

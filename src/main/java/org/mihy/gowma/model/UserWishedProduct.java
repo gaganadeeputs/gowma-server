@@ -4,11 +4,10 @@
  */
 package org.mihy.gowma.model;
 
-public class ShoppingCartItem extends BaseModel {
+public class UserWishedProduct extends BaseModel {
 
-    private Product product;
-    private double quantity;
     private Integer userId;
+    private Product product;
 
     public Integer getUserId() {
         return userId;
@@ -25,13 +24,4 @@ public class ShoppingCartItem extends BaseModel {
     public void setProduct(Product product) {
         this.product = product;
     }
-
-    public double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
-    }
 }
-

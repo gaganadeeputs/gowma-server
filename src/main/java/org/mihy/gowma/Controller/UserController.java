@@ -10,7 +10,11 @@ import org.mihy.gowma.model.Product;
 import org.mihy.gowma.model.ShoppingCartItem;
 import org.mihy.gowma.model.User;
 import org.mihy.gowma.model.UserAddress;
+import org.mihy.gowma.model.UserWishedProduct;
+import org.mihy.gowma.service.ShoppingCartService;
+import org.mihy.gowma.service.UserAddressService;
 import org.mihy.gowma.service.UserService;
+import org.mihy.gowma.service.UserWishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +38,15 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserAddressService userAddressService;
+
+    @Autowired
+    private UserWishListService userWishListService;
+
+    @Autowired
+    private ShoppingCartService shoppingCartService;
 
     @ApiOperation(value = "Create a user", response = User.class)
     @PostMapping(EndPoints.User.ROOT)
@@ -76,7 +89,7 @@ public class UserController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public List<UserAddress> getAddressesForUserId(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId) {
-        return null;
+        return userAddressService.getAddressesForUserId(userId);
     }
 
 
@@ -86,7 +99,8 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserAddress createAddressForUserId(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId,
                                               @RequestBody UserAddress userAddress) {
-        return null;
+        userAddress.setUserId(userId);
+        return userAddressService.createAddress(userAddress);
     }
 
     @ApiOperation(value = "Update a existing address of user by id")
@@ -96,7 +110,9 @@ public class UserController {
     public UserAddress updateAddressForUserId(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId,
                                               @PathVariable(value = EndPoints.PathVariable.ADDRESS_ID) Integer addressId,
                                               @RequestBody UserAddress userAddress) {
-        return null;
+        userAddress.setUserId(userId);
+        userAddress.setId(addressId);
+        return userAddressService.updateAddress(userAddress);
     }
 
     @ApiOperation(value = "Delete a address of a user by id ")
@@ -104,8 +120,8 @@ public class UserController {
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAddressForUserId(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId,
-                                       @PathVariable(value = EndPoints.PathVariable.ADDRESS_ID) Integer addressId,
-                                       @RequestBody UserAddress userAddress) {
+                                       @PathVariable(value = EndPoints.PathVariable.ADDRESS_ID) Integer addressId) {
+        userAddressService.deleteForUserIdNAddressId(userId, addressId);
 
     }
 
@@ -114,8 +130,8 @@ public class UserController {
     @GetMapping(EndPoints.User.USER_WISH_LIST)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Product> getWishedProductsForUserId(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId) {
-        return userService.getWishedProductsForUserId(userId);
+    public List<UserWishedProduct> getWishedProductsForUserId(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId) {
+        return userWishListService.getWishedProductsForUserId(userId);
     }
 
     @ApiOperation(value = "Add a product with given id to the user")
@@ -124,7 +140,12 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addProductToWishList(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId,
                                      @PathVariable(value = EndPoints.PathVariable.PRODUCT_ID) Integer productId) {
-        userService.addProductToWishList(userId, productId);
+        UserWishedProduct userWishedProduct = new UserWishedProduct();
+        userWishedProduct.setUserId(userId);
+        Product product = new Product();
+        product.setId(productId);
+        userWishedProduct.setProduct(product);
+        userWishListService.addProductToWishList(userWishedProduct);
     }
 
     @ApiOperation(value = "Remove a product with given id from the user")
@@ -133,7 +154,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeProductToWishList(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId,
                                         @PathVariable(value = EndPoints.PathVariable.PRODUCT_ID) Integer productId) {
-        userService.removeProductFromWishList(userId, productId);
+        userWishListService.removeProductFromWishList(userId, productId);
     }
 
     @ApiOperation(value = "Clear the whole user wishList")
@@ -141,16 +162,16 @@ public class UserController {
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void clearUserWishList(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId) {
-        userService.clearUserWishList(userId);
+        userWishListService.clearUserWishList(userId);
     }
 
-    //User cart  API
+    //User Shopping cart API
     @ApiOperation(value = "Get a list of shopping cart items for a user by user id")
     @GetMapping(EndPoints.User.USER_CART)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public List<ShoppingCartItem> getShoppingCartForUserId(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId) {
-        return userService.getShoppingCartForUserId(userId);
+        return shoppingCartService.getShoppingCartItemsForUserId(userId);
     }
 
     @ApiOperation(value = "Add a shopping cart item to the user")
@@ -159,7 +180,8 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public ShoppingCartItem addToShoppingCart(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId,
                                               @RequestBody ShoppingCartItem shoppingCartItem) {
-        return userService.addToShoppingCart(userId, shoppingCartItem);
+        shoppingCartItem.setUserId(userId);
+        return shoppingCartService.addToShoppingCartItems(shoppingCartItem);
     }
 
     @ApiOperation(value = "Update a shopping cart item by id for a user")
@@ -169,7 +191,9 @@ public class UserController {
     public ShoppingCartItem updateShoppingCartItem(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId,
                                                    @PathVariable(value = EndPoints.PathVariable.SHOPPING_CART_ITEM_ID) Integer shoppingCartItemId,
                                                    @RequestBody ShoppingCartItem shoppingCartItem) {
-        return userService.updateShoppingCart(userId, shoppingCartItemId, shoppingCartItem);
+        shoppingCartItem.setUserId(userId);
+        shoppingCartItem.setId(shoppingCartItemId);
+        return shoppingCartService.updateShoppingCartItem(shoppingCartItem);
     }
 
     @ApiOperation(value = "Remove a shopping cart item by id for a user", response = User.class)
@@ -178,7 +202,16 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public void removeFromShoppingCart(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId,
                                        @PathVariable(value = EndPoints.PathVariable.SHOPPING_CART_ITEM_ID) Integer shoppingCartItemId) {
-        userService.removeFromShoppingCart(userId, shoppingCartItemId);
+        shoppingCartService.removeFromShoppingCartItems(userId, shoppingCartItemId);
+    }
+
+
+    @ApiOperation(value = "Clear the whole cart list for user")
+    @DeleteMapping(EndPoints.User.USER_CART)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void clearAllShoppingCartListForUser(@PathVariable(value = EndPoints.PathVariable.USER_ID) Integer userId) {
+        shoppingCartService.clearAllShoppingCartListItemsForUserId(userId);
     }
 
 

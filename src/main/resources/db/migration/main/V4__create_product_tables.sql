@@ -124,26 +124,26 @@ CREATE TABLE offer_mapping
     offer_mapping__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE user_product_whilist
+CREATE TABLE user_product_wishlist
 (
     id SERIAL PRIMARY KEY,
-    user_product_whilist__user_id integer REFERENCES gowma_user NOT NULL,
-    user_product_whilist__product_id integer REFERENCES product NOT NULL,
-    user_product_whilist__created_date timestamp default NULL,
-    user_product_whilist__last_modified_date timestamp default NULL,
-    user_product_whilist__created_by integer REFERENCES gowma_user NULL,
-    user_product_whilist__last_modified_by integer REFERENCES gowma_user NULL,
-    user_product_whilist__is_deleted  boolean NOT NULL DEFAULT FALSE
+    user_product_wishlist__user_id integer REFERENCES gowma_user NOT NULL,
+    user_product_wishlist__product_id integer REFERENCES product NOT NULL,
+    user_product_wishlist__created_date timestamp default NULL,
+    user_product_wishlist__last_modified_date timestamp default NULL,
+    user_product_wishlist__created_by integer REFERENCES gowma_user NULL,
+    user_product_wishlist__last_modified_by integer REFERENCES gowma_user NULL,
+    user_product_wishlist__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE user_cart_list
+CREATE TABLE user_shopping_cart_items
 (
     id SERIAL PRIMARY KEY,
-    user_cart_list__user_id integer REFERENCES gowma_user NOT NULL,
-    user_cart_list__product_id integer REFERENCES product NOT NULL,
-    user_cart_list__quantity NUMERIC(10, 2) NOT NULL,
-    user_cart_list__last_modified_date timestamp default NULL,
-    user_cart_list__created_by integer REFERENCES gowma_user NULL,
-    user_cart_list__last_modified_by integer REFERENCES gowma_user NULL,
-    user_cart_list__is_deleted  boolean NOT NULL DEFAULT FALSE
+    user_shopping_cart_items__user_id integer REFERENCES gowma_user NOT NULL,
+    user_shopping_cart_items__product_id integer REFERENCES product NOT NULL,
+    user_shopping_cart_items__quantity NUMERIC(10, 2) NOT NULL,
+    user_shopping_cart_items__last_modified_date timestamp default NULL,
+    user_shopping_cart_items__created_by integer REFERENCES gowma_user NULL,
+    user_shopping_cart_items__last_modified_by integer REFERENCES gowma_user NULL,
+    user_shopping_cart_items__is_deleted  boolean NOT NULL DEFAULT FALSE
 );

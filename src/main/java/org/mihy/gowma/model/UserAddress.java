@@ -9,7 +9,7 @@ import org.mihy.gowma.constants.AddressType;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public  class UserAddress extends BaseModel {
-    private int userId;
+    private Integer userId;
     private AddressCode addressCode;
     private String addressName;
     private AddressType addressType;
@@ -19,11 +19,11 @@ public  class UserAddress extends BaseModel {
     private String phoneNo;
     private boolean isDefault;
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
