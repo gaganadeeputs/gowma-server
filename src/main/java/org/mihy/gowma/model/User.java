@@ -8,12 +8,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.mihy.gowma.constants.Gender;
 import org.mihy.gowma.constants.UserStatus;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User extends BaseModel {
+    @NotNull
     private String email;
+    @NotNull
     private String mobileNo;
+    @NotNull
     private String password;
     private UserStatus status;
     private UserDetail userDetail;

@@ -20,14 +20,14 @@ public class UserRoleMappingRepository extends BaseRepository {
 
 
     private static final String INSERT_SQL = "INSERT INTO  user_role_mapping(user_role_mapping__user_id,user_role_mapping__role_id) " +
-            "values(:userId,:userRoleId )";
+            " values(:userId,:userRoleId )";
     private static final String SOFT_DELETE_BY_USER_ID_SQL = "UPDATE user_role_mapping" +
-            "SET user_role_mapping__is_deleted=true" +
-            "WHERE user_role_mapping__user_id=:userId";
+            " SET user_role_mapping__is_deleted=true" +
+            " WHERE user_role_mapping__user_id=:userId";
 
     private static final String SELECT_BY_USER_ID_SQL = "SELECT * from user_role_mapping,role " +
-            "WHERE user_role_mapping.user_role_mapping__role_id=role.id " +
-            "AND user_role_mapping__user_id=:userId";
+            " WHERE user_role_mapping.user_role_mapping__role_id=role.id " +
+            " AND user_role_mapping__user_id=:userId";
 
     public void deleteForUserId(int userId) {
         final MapSqlParameterSource params = new MapSqlParameterSource();

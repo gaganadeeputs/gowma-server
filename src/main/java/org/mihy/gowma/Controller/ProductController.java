@@ -12,6 +12,7 @@ import org.mihy.gowma.model.ProductInventory;
 import org.mihy.gowma.model.User;
 import org.mihy.gowma.model.search.ProductSearchRequest;
 import org.mihy.gowma.service.ProductImageService;
+import org.mihy.gowma.service.ProductInventoryService;
 import org.mihy.gowma.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,9 @@ public class ProductController {
 
     @Autowired
     private ProductImageService productImageService;
+
+    @Autowired
+    private ProductInventoryService productInventoryService;
 
 
     @ApiOperation(value = "Get a product by id")
@@ -121,45 +125,45 @@ public class ProductController {
     }
 
 
-    /*//Product Inventory
+    //Product Inventory
 
-    @ApiOperation(value = "Get a list of product images for a product with id")
+    @ApiOperation(value = "Get a product inventory for a product with id")
     @GetMapping(EndPoints.Product.PRODUCT_INVENTORY)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public ProductInventory getAllProductImagesByProductId(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId) {
-        return productImageService.getAllProductImagesByProductId(productId);
+    public ProductInventory getProductInventoryForProductId(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId) {
+        return productInventoryService.getProductInventoryForProductId(productId);
     }
 
     @ApiOperation(value = "Create a list of Product Images for a product with id")
     @PostMapping(EndPoints.Product.PRODUCT_INVENTORY)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductInventory createProductImagesForProductId(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId,
-                                                              @RequestBody List<ProductImage> productImages) {
-        productImages.forEach(productImage -> productImage.setProductId(productId));
-        return productImageService.createForProductId(productId, productImages);
+    public ProductInventory createProductInventoryForProductId(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId,
+                                                               @RequestBody ProductInventory productInventory) {
+        productInventory.setProductId(productId);
+        return productInventoryService.createForProductId(productInventory);
     }
 
-    @ApiOperation(value = "Update a product by product image id for a product with id")
+    @ApiOperation(value = "Update a product inventory product for a product with id")
     @PutMapping(EndPoints.Product.PRODUCT_INVENTORY_WITH_ID)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public ProductInventory updateProductImageByIdForProductId(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId,
-                                                           @PathVariable(EndPoints.PathVariable.PRODUCT_IMAGE_ID) Integer productImageId,
-                                                           @RequestBody ProductImage productImage) {
-        productImage.setId(productImageId);
-        productImage.setProductId(productId);
-        return productImageService.update(productImage);
+    public ProductInventory updateProductInventoryForProductId(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId,
+                                                               @PathVariable(EndPoints.PathVariable.PRODUCT_INVENTORY_ID) Integer productInventoryId,
+                                                               @RequestBody ProductInventory productInventory) {
+        productInventory.setId(productInventoryId);
+        productInventory.setProductId(productId);
+        return productInventoryService.update(productInventory);
     }
 
-    @ApiOperation(value = "Delete a product image by id for a product id", response = User.class)
+    @ApiOperation(value = "Delete a product inventory for a product id", response = User.class)
     @DeleteMapping(EndPoints.Product.PRODUCT_INVENTORY_WITH_ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProductImageById(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId,
-                                       @PathVariable(EndPoints.PathVariable.PRODUCT_IMAGE_ID) Integer productImageId) {
-        productImageService.deleteByProductIdNId(productId, productImageId);
+    public void deleteProductInventoryByIdNProductId(@PathVariable(EndPoints.PathVariable.PRODUCT_ID) Integer productId,
+                                                     @PathVariable(EndPoints.PathVariable.PRODUCT_INVENTORY_ID) Integer productInventoryId) {
+        productInventoryService.deleteByProductIdNId(productId, productInventoryId);
     }
 
-*/
+
 }

@@ -36,13 +36,15 @@ import org.springframework.http.HttpStatus;
  */
 public enum GowmaServiceExceptionCode implements ExceptionCode {
 
+
+    CFG_GENERIC_INVALID_ID("CFG-101", "CFG_GENERIC_INVALID_ID", "Invalid id for %s"),
+    CFG_GENERIC_DUPLICATE_NAME("CFG-101", "CFG_GENERIC_DUPLICATE_NAME", "Duplicate name has been provided for %s"),
+    CFG_GENERIC_DATA_ACCESS_EXCEPTION("CFG-102", "CFG_GENERIC_DATA_ACCESS_EXCEPTION", "Error updating database"),
+    CFG_GENERIC_INVALID_INPUT("CFG-106", "CFG_GENERIC_INVALID_INPUT", ""),
     // 400 minor codes
     USER_DUPLICATE_EMAIL("USER-101", "user.email.duplicate", "Email already exists"),
-    USER_DUPLICATE_MOBILE_NO("USER-102", "user.mobile.number.duplicate", "Mobile no already exists"),
-    CFG_GENERIC_INVALID_ID("CFG-404.107", "BasePropertyConstants.Error.CFG_GENERIC_INVALID_ID", "HttpStatus.NOT_FOUND"),
-    CFG_GENERIC_DUPLICATE_NAME("CFG-101", "BasePropertyConstants.Error.CFG_GENERIC_DUPLICATE_NAME", "Entry already exists."),
-    CFG_GENERIC_DATA_ACCESS_EXCEPTION("CFG-102", "BasePropertyConstants.Error.CFG_GENERIC_DATA_ACCESS_EXCEPTION", "Error updating database"),
-    CFG_GENERIC_INVALID_INPUT("CFG-106", "BasePropertyConstants.Error.CFG_GENERIC_INVALID_INPUT", "");
+    USER_DUPLICATE_MOBILE_NO("USER-102", "user.mobile.number.duplicate", "Mobile no already exists");
+
 
 
     private final String code;

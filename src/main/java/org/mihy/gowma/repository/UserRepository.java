@@ -84,7 +84,7 @@ public class UserRepository extends BaseRepository {
             }
         });
         if (users.isEmpty())
-            throw new GowmaServiceRuntimeException(GowmaServiceExceptionCode.CFG_GENERIC_INVALID_ID);
+            throw new GowmaServiceRuntimeException(GowmaServiceExceptionCode.CFG_GENERIC_INVALID_ID,"user");
         User user = users.get(0);
         user.setUserDetail(userDetailRepository.getByUserId(userId));
         user.setRoles(userRoleMappingRepository.getByUserId(userId));

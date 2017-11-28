@@ -34,7 +34,7 @@ public class ProductImageRepository extends BaseRepository {
 
     private static final String SOFT_DELETE_BY_ID = "UPDATE product_images SET product__images_is_deleted=true where  id=:id";
 
-    private final String SELECT_BY_PRODUCT_ID = "SELECT * from product_images WHERE product_images__product_id=:productId order by product_images_order_no ASC";
+    private final String SELECT_BY_PRODUCT_ID = "SELECT * from product_images WHERE product_images__product_id=:productId ORDER BY product_images_order_no ASC";
 
 
     public List<ProductImage> getByProductId(int productId) {

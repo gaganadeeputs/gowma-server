@@ -77,7 +77,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 	public TokenStore tokenStore() {
 		return new JdbcTokenStore(dataSource());
 	}
-
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -87,7 +86,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		dataSource.setPassword("mihy,2017");
 		return dataSource;
 	}
-
 	/*@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -96,8 +94,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		dataSource.setUsername("gowma");
 		dataSource.setPassword("MobileIron,2017");
 		return dataSource;
-	}*/
-
+	}
+*/
 	@Bean
 	public TokenEnhancer tokenEnhancer() {
 		return new CustomTokenEnhancer();

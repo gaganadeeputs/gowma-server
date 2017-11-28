@@ -31,7 +31,7 @@ public final class EndPoints {
         public static final String PRODUCT_CATEGORY_ID_TEMPLATE = "{" + PathVariable.PRODUCT_CATEGORY_ID + "}";
         public static final String ADDRESS_ID_TEMPLATE = "{" + PathVariable.ADDRESS_ID + "}";
         public static final String PRODUCT_ID_TEMPLATE ="{"+PathVariable.PRODUCT_ID +"}";
-        public static final String PRODUCT_INVENTORY_WITH_ID_TEMPLATE ="{"+PathVariable.PRODUCT_IMAGE_ID +"}";
+        public static final String PRODUCT_INVENTORY_WITH_ID_TEMPLATE ="{"+PathVariable.PRODUCT_INVENTORY_ID +"}";
         public static final String PRODUCT_IMAGE_WITH_ID_TEMPLATE ="{"+PathVariable.PRODUCT_IMAGE_ID +"}";
         public static final String OFFER_WITH_ID_TEMPLATE ="{"+PathVariable.OFFER_ID +"}";
         public static final String TAX_DETAIL_WITH_ID_TEMPLATE ="{"+PathVariable.TAX_DETAIL_ID +"}";
@@ -77,7 +77,7 @@ public final class EndPoints {
         public static final String PRODUCT_IMAGE_WITH_ID = PRODUCT_IMAGES + "/" + PathVariableTemplate.PRODUCT_IMAGE_WITH_ID_TEMPLATE;
 
         public static final String PRODUCT_INVENTORY = PRODUCT_WITH_ID + "/product-inventory";
-        public static final String PRODUCT_INVENTORY_WITH_ID = PRODUCT_INVENTORY +  PathVariableTemplate.PRODUCT_IMAGE_WITH_ID_TEMPLATE;
+        public static final String PRODUCT_INVENTORY_WITH_ID = PRODUCT_INVENTORY +  PathVariableTemplate.PRODUCT_INVENTORY_WITH_ID_TEMPLATE;
 
     }
 

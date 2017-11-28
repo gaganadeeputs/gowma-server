@@ -18,6 +18,7 @@ public class WebResponse<T> {
     private WebResponse.Errors errors;
     private T result;
 
+
     public WebResponse() {
     }
 
