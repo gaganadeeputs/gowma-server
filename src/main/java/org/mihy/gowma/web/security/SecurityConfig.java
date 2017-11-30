@@ -4,6 +4,7 @@ import org.mihy.gowma.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,7 +22,7 @@ import java.util.Arrays;
 @Order(4)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
+	@Autowired @Lazy
 	private CustomUserDetailsService customUserDetailsService;
 
 
@@ -41,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("https://example.com"));
+		configuration.setAllowedOrigins(Arrays.asList("http://example.com"));
 		configuration.setAllowedMethods(Arrays.asList("GET","POST","DELETE","UPDATE"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);

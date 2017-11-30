@@ -37,13 +37,13 @@ import org.springframework.http.HttpStatus;
 public enum GowmaServiceExceptionCode implements ExceptionCode {
 
 
-    CFG_GENERIC_INVALID_ID("CFG-101", "CFG_GENERIC_INVALID_ID", "Invalid id for %s"),
-    CFG_GENERIC_DUPLICATE_NAME("CFG-101", "CFG_GENERIC_DUPLICATE_NAME", "Duplicate name has been provided for %s"),
+    CFG_GENERIC_INVALID_ID("CFG-101", "CFG_GENERIC_INVALID_ID", "The request input is invalid. Reason: %s"),
+    CFG_GENERIC_DUPLICATE_NAME("CFG-101", "CFG_GENERIC_DUPLICATE_NAME", "Name with %s already exists in the system"),
     CFG_GENERIC_DATA_ACCESS_EXCEPTION("CFG-102", "CFG_GENERIC_DATA_ACCESS_EXCEPTION", "Error updating database"),
-    CFG_GENERIC_INVALID_INPUT("CFG-106", "CFG_GENERIC_INVALID_INPUT", ""),
+    CFG_GENERIC_INVALID_INPUT("CFG-106", "CFG_GENERIC_INVALID_INPUT", "The request contains invalid input"),
     // 400 minor codes
-    USER_DUPLICATE_EMAIL("USER-101", "user.email.duplicate", "Email already exists"),
-    USER_DUPLICATE_MOBILE_NO("USER-102", "user.mobile.number.duplicate", "Mobile no already exists");
+    USER_DUPLICATE_EMAIL("USER-101", "USER.EMAIL.DUPLICATE", "User with Email %s already exists in the system"),
+    USER_DUPLICATE_MOBILE_NO("USER-102", "USER.MOBILE.NUMBER.DUPLICATE", "User with mobile no %s already exists in the system");
 
 
 

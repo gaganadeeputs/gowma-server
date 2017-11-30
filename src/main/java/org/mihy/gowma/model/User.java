@@ -19,6 +19,7 @@ public class User extends BaseModel {
     private String mobileNo;
     @NotNull
     private String password;
+    @NotNull
     private UserStatus status;
     private UserDetail userDetail;
     private List<Role> roles;

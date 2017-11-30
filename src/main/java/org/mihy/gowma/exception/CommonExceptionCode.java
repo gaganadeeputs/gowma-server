@@ -16,14 +16,14 @@ public enum CommonExceptionCode implements ExceptionCode {
     /* Same as bad request, but specifies invalid value. */
     HTTP_INVALID_PARAMETER_VALUE("HTTP-400-4", "CommonPropertyConstants.Error.GENERIC_VALUE_INVALID","Invalid Parameter value"),
 
-    HTTP_UNAUTHORIZED("HTTP-401", "CommonPropertyConstants.Error.HTTP_UNAUTHORIZED","AunAuthorized"),
-    HTTP_FORBIDDEN("HTTP-403", "CommonPropertyConstants.Error.HTTP_FORBIDDEN","Request is forbidden"),
-    HTTP_NOT_FOUND("HTTP-404", "CommonPropertyConstants.Error.HTTP_NOT_FOUND","Resource NOT Found"),
-    HTTP_METHOD_NOT_ALLOWED("HTTP-405", "CommonPropertyConstants.Error.HTTP_METHOD_NOT_ALLOWED","method not allowed"),
-    HTTP_NOT_ACCEPTABLE("HTTP-406", "CommonPropertyConstants.Error.HTTP_NOT_ACCEPTABLE"," http not acceptable"),
-    HTTP_INTERNAL_SERVER_ERROR("HTTP-500", "CommonPropertyConstants.Error.HTTP_INTERNAL_SERVER_ERROR","Internal Server Error"),
+    HTTP_UNAUTHORIZED("HTTP-401", "HTTP_UNAUTHORIZED","AunAuthorized"),
+    HTTP_FORBIDDEN("HTTP-403", "HTTP_FORBIDDEN","Request is forbidden"),
+    HTTP_NOT_FOUND("HTTP-404", "HTTP_NOT_FOUND","Resource NOT Found"),
+    HTTP_METHOD_NOT_ALLOWED("HTTP-405", "HTTP_METHOD_NOT_ALLOWED","method not allowed"),
+    HTTP_NOT_ACCEPTABLE("HTTP-406", "HTTP_NOT_ACCEPTABLE"," http not acceptable"),
+    HTTP_INTERNAL_SERVER_ERROR("HTTP-500", "HTTP_INTERNAL_SERVER_ERROR","Internal Server Error"),
 
-    CACHE_NOT_FOUND_EXCEPTION("CACHE-404", "CommonPropertyConstants.Error.CACHE_NOT_FOUND","");
+    CACHE_NOT_FOUND_EXCEPTION("CACHE-404", "CACHE_NOT_FOUND","");
 
     private final String code;
     private final String key;

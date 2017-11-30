@@ -43,6 +43,7 @@ public final class EndPoints {
         public static final String PARENT_CATEGORY_ID = "parent-category-id";
         public static final String OFFER_PRODUCT_ID = "offer-product-id";
         public static final String OFFER_CATEGORY_ID = "offer-category-id";
+        public static final String ADDRESS_CODE = "address-code";
     }
 
     public static final class User {
@@ -94,6 +95,12 @@ public final class EndPoints {
         public static final String ROOT = API_V1_ROOT + "/tax-detail";
         public static final String TAX_DETAIL_WITH_ID = ROOT + "/" + PathVariableTemplate.TAX_DETAIL_WITH_ID_TEMPLATE;
 
+
+    }
+
+
+    public static final class AddressCode {
+        public static final String ROOT = API_V1_ROOT + "/address-code";
 
     }
 }

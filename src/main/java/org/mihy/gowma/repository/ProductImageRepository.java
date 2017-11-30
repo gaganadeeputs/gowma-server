@@ -25,16 +25,20 @@ public class ProductImageRepository extends BaseRepository {
 
 
     private static final String UPDATE_SQL = "UPDATE  product_images SET product_images__product_id=:productId," +
-            " product_images__image_url=:imageUrl, product_images_order_no=:orderNo WHERE id=:id";
+            " product_images__image_url=:imageUrl, product_images_order_no=:orderNo" +
+            " WHERE id=:id";
 
-    private static final String SOFT_DELETE_BY_PRODUCT_ID = "UPDATE  product_images SET product_images__is_deleted=true where product_images__product_id=:productId";
+    private static final String SOFT_DELETE_BY_PRODUCT_ID = "UPDATE  product_images SET product_images__is_deleted=true " +
+            "WHERE product_images__product_id=:productId";
 
-    private static final String SOFT_DELETE_BY_PRODUCT_ID_AND_ID = "UPDATE  product_images SET product_images__is_deleted=true where product_images__product_id=:productId AND id=:id ";
+    private static final String SOFT_DELETE_BY_PRODUCT_ID_AND_ID = "UPDATE  product_images SET product_images__is_deleted=true" +
+            " WHERE product_images__product_id=:productId AND id=:id ";
 
 
     private static final String SOFT_DELETE_BY_ID = "UPDATE product_images SET product__images_is_deleted=true where  id=:id";
 
-    private final String SELECT_BY_PRODUCT_ID = "SELECT * from product_images WHERE product_images__product_id=:productId ORDER BY product_images_order_no ASC";
+    private final String SELECT_BY_PRODUCT_ID = "SELECT * from product_images WHERE product_images__product_id=:productId" +
+            " ORDER BY product_images_order_no ASC";
 
 
     public List<ProductImage> getByProductId(int productId) {

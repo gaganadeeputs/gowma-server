@@ -29,7 +29,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-public class ProductCategoryController {
+public class ProductCategoryController extends AbstractWebResponseController  {
 
     @Autowired
     private ProductCategoryService productCategoryService;

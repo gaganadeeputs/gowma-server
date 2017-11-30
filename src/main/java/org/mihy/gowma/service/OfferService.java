@@ -18,9 +18,9 @@ public class OfferService {
     @Autowired
     private OfferRepository offerRepository;
 
-    public List<Offer> getOffersForCategoryIdNProductId(Integer categoryId, Integer productId) {
+   /* public List<Offer> getOffersForCategoryIdNProductId(Integer categoryId, Integer productId) {
         return offerRepository.getOffersForCategoryIdNProductId(categoryId, productId);
-    }
+    }*/
 
     public Offer create(Offer offer) {
 

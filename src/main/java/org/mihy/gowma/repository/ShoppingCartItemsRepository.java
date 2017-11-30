@@ -27,20 +27,20 @@ public class ShoppingCartItemsRepository extends BaseRepository {
             ") VALUES(:userId,:product.id,:quantity)";
 
     private final String UPDATE_BY_ID_AND_USER_ID_SQL = "UPDATE user_shopping_cart_items " +
-            "SET user_shopping_cart_items__quantity=:quantity" +
+            " SET user_shopping_cart_items__quantity=:quantity" +
             "WHERE user_shopping_cart_items__user_id=:userId AND id=:id ";
 
     private final String SOFT_DELETE_BY_ID_AND_USER_ID_SQL = "UPDATE user_shopping_cart_items " +
-            "SET user_shopping_cart_items__is_deleted=true" +
+            " SET user_shopping_cart_items__is_deleted=true" +
             "WHERE user_shopping_cart_items__user_id=:userId AND id=:id";
 
     private final String SOFT_DELETE_BY_USER_ID_SQL = "UPDATE user_shopping_cart_items " +
-            "SET user_shopping_cart_items__is_deleted=true" +
-            "WHERE user_shopping_cart_items__user_id=:userId ";
+            " SET user_shopping_cart_items__is_deleted=true" +
+            " WHERE user_shopping_cart_items__user_id=:userId ";
 
     private final String SELECT_BY_USER_ID = "SELECT * from user_shopping_cart_items usci INNER JOIN product p ON " +
-            "usci.user_shopping_cart_items__product_id=product.id INNER JOIN unit_of_measure uof ON p.product__unit_of_measure_id=uof.id " +
-            "WHERE user_shopping_cart_items__user_id=:userId ";
+            " usci.user_shopping_cart_items__product_id=product.id INNER JOIN unit_of_measure uof ON p.product__unit_of_measure_id=uof.id " +
+            " WHERE user_shopping_cart_items__user_id=:userId ";
 
 
     public ShoppingCartItem create(ShoppingCartItem shoppingCartItem) {

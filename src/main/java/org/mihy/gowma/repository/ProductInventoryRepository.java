@@ -15,25 +15,27 @@ import java.util.List;
 public class ProductInventoryRepository extends BaseRepository {
 
 
-    private final String INSERT_SQL = "INSERT INTO product_inventory(inventory__product_id,inventory__available_count,inventory__sold_count," +
+    private final String INSERT_SQL = "INSERT INTO product_inventory(inventory__product_id,inventory__available_count," +
+            "inventory__sold_count," +
             "inventory__inventory_status" +
             ") VALUES(:productId,:availableCount,:soldCount,:status::inventory_status)";
 
 
     private final String UPDATE_SQL = "UPDATE product_inventory " +
-            "SET inventory__available_count=:availableCount," +
-            "inventory__sold_count=:soldCount ," +
-            "inventory__inventory_status=:status::inventory_status" +
-            "WHERE  inventory__product_id=:productId AND" +
-            "id=:id";
+            " SET inventory__available_count=:availableCount," +
+            " inventory__sold_count=:soldCount ," +
+            " inventory__inventory_status=:status::inventory_status" +
+            " WHERE  inventory__product_id=:productId AND" +
+            " id=:id";
 
 
     private final String SOFT_DELETE_BY_PRODUCT_ID_AND_ID = "UPDATE product_inventory " +
-            "SET inventory__is_deleted=true" +
-            "WHERE inventory__product_id=:userId AND" +
-            "id=:id";
+            " SET inventory__is_deleted=true" +
+            " WHERE inventory__product_id=:userId AND" +
+            " id=:id";
 
-    private final String SELECT_BY_PRODUCT_ID = "SELECT * FROM product_inventory WHERE product_inventory=:productId ";
+    private final String SELECT_BY_PRODUCT_ID = "SELECT * FROM product_inventory " +
+            "WHERE product_inventory=:productId ";
 
 
     public void deleteByProductIdNId(Integer productId, Integer productInventoryId) {

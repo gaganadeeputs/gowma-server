@@ -28,12 +28,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-public class OfferController {
+public class OfferController extends AbstractWebResponseController  {
 
     @Autowired
     private OfferService offerService;
 
-    @ApiOperation(value = "Get a list of offers for category and product id")
+  /*  @ApiOperation(value = "Get a list of offers for category and product id")
     @GetMapping(EndPoints.Offer.ROOT)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -42,7 +42,7 @@ public class OfferController {
 
         return offerService.getOffersForCategoryIdNProductId(categoryId, productId);
     }
-
+*/
     @ApiOperation(value = "Create a offer")
     @PostMapping(EndPoints.Offer.ROOT)
     @ResponseBody

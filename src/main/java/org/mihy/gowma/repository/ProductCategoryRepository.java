@@ -35,12 +35,12 @@ public class ProductCategoryRepository extends BaseRepository {
             "VALUES (:parentCategoryId, :name, :description, :imgUrl, :orderNo, :enabled)";
 
     private final String UPDATE_BY_ID_SQL = "UPDATE product_category " +
-            "SET product_category__parent_id=:parentCategoryId, product_category__name=:name, product_category__description=:description, " +
+            " SET product_category__parent_id=:parentCategoryId, product_category__name=:name, product_category__description=:description, " +
             "product_category__image_url=:imgUrl, product_category__order_no=:orderNo, product_category__enabled=:enabled " +
             " WHERE id=:id";
 
     private final String SOFT_DELETE_BY_ID_SQL = "UPDATE product_category " +
-            "SET product_category__is_deleted=true WHERE id=:id";
+            " SET product_category__is_deleted=true WHERE id=:id";
 
     @Autowired
     private ProductCategoryQueryBuilder productCategoryQueryBuilder;

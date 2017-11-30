@@ -26,19 +26,19 @@ public class ProductWishListRepository extends BaseRepository {
             ") VALUES(:userId,:product.id)";
 
 
-    private final String SOFT_DELETE_BY_USER_ID_AND_PRODUCT_ID = "UPDATE user_shopping_cart_items " +
-            "SET user_shopping_cart_items__is_deleted=true" +
+    private final String SOFT_DELETE_BY_USER_ID_AND_PRODUCT_ID = "UPDATE user_product_wishlist " +
+            "SET user_product_wishlist__is_deleted=true" +
             "WHERE user_product_wishlist__product_id=:productId AND " +
             "user_product_wishlist__user_id=:userId";
 
 
-    private final String SOFT_DELETE_BY_USER_ID = "UPDATE user_shopping_cart_items " +
-            "SET user_shopping_cart_items__is_deleted=true" +
-            "WHERE user_shopping_cart_items__user_id=:userId ";
+    private final String SOFT_DELETE_BY_USER_ID = "UPDATE user_product_wishlist " +
+            "SET user_product_wishlist__is_deleted=true" +
+            "WHERE user_product_wishlist__user_id=:userId ";
 
-    private final String SELECT_BY_USER_ID = "SELECT * from user_shopping_cart_items usci INNER JOIN product p ON " +
-            "usci.user_product_wishlist__product_id=product.id INNER JOIN unit_of_measure uof ON p.product__unit_of_measure_id=uof.id " +
-            "WHERE user_shopping_cart_items__user_id=:userId ";
+    private final String SELECT_BY_USER_ID = "SELECT * from user_product_wishlist upw INNER JOIN product p ON " +
+            "upw.user_product_wishlist__product_id=product.id INNER JOIN unit_of_measure uof ON p.product__unit_of_measure_id=uof.id " +
+            "WHERE user_product_wishlist__user_id=:userId ";
 
 
     public List<UserWishedProduct> getWishedProductsForUserId(Integer userId) {

@@ -22,9 +22,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-
-
-
     public User create(User user) {
         String passwordHash = passwordEncoder.encode(user.getPassword());
         user.setPassword(passwordHash);
@@ -43,8 +40,8 @@ public class UserService {
         userRepository.delete(userId);
     }
 
-    public UserDetails findByEmail(String email) {
-        return new SecureUser(userRepository.findByEmail(email));
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
 

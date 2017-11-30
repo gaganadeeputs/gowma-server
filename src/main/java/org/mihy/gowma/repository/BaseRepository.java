@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 public class BaseRepository {
 
     private final String idColumnName = "id";
+
     @Autowired
     protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 

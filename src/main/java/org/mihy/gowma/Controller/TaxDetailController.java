@@ -5,11 +5,8 @@
 package org.mihy.gowma.Controller;
 
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.mihy.gowma.constants.EndPoints;
 import org.mihy.gowma.model.TaxDetail;
-import org.mihy.gowma.model.User;
 import org.mihy.gowma.service.TaxDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-public class TaxDetailController {
+public class TaxDetailController extends AbstractWebResponseController  {
 
     @Autowired
     private TaxDetailService taxDetailService;

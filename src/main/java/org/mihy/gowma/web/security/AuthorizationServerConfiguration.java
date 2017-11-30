@@ -101,12 +101,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		return new CustomTokenEnhancer();
 	}
 
-	@Configuration
+/*	@Configuration
 	@EnableGlobalMethodSecurity(prePostEnabled = true)
 	public static class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
 
-	}
+	}*/
 
 
 }

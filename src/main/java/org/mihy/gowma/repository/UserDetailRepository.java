@@ -23,12 +23,18 @@ public class UserDetailRepository extends BaseRepository {
 
 
     private static final String INSERT_SQL = "INSERT INTO user_detail(" +
-            "user_detail_user_id, user_detail_fname, user_detail_lname, user_detail_gender, user_detail__created_date)" +
-            "VALUES (:userId, :fname, :lname, :gender::gender, :createdDate)";
-    private static final String SOFT_DELETE_BY_USER_ID_SQL = " UPDATE user_detail SET user_detail__is_deleted=true WHERE user_detail_user_id=:userId";
-    private static final String SELECT_BY_USER_ID = "SELECT * from user_detail WHERE user_detail_user_id=:userId ";
+            " user_detail_user_id, user_detail_fname, user_detail_lname, user_detail_gender, user_detail__created_date)" +
+            " VALUES (:userId, :fname, :lname, :gender::gender, :createdDate)";
+
+    private static final String SOFT_DELETE_BY_USER_ID_SQL = " UPDATE user_detail SET user_detail__is_deleted=true" +
+            " WHERE user_detail_user_id=:userId";
+
+    private static final String SELECT_BY_USER_ID = "SELECT * from user_detail" +
+            " WHERE user_detail_user_id=:userId ";
+
     private static String UPDATE_BY_USER_ID_SQL = "UPDATE user_detail" +
-            " SET user_detail_fname=:fname, user_detail_lname=:lname, user_detail_gender=:gender::gender, user_detail__last_modified_date=:lastModifiedDate" +
+            " SET user_detail_fname=:fname, user_detail_lname=:lname, user_detail_gender=:gender::gender," +
+            " user_detail__last_modified_date=:lastModifiedDate" +
             " WHERE user_detail_user_id=:userId";
 
     public User.UserDetail create(User.UserDetail userDetail) {
@@ -51,7 +57,7 @@ public class UserDetailRepository extends BaseRepository {
                 userDetail.setId(resultSet.getInt("id"));
                 userDetail.setFname(resultSet.getString("user_detail_fname"));
                 userDetail.setFname(resultSet.getString("user_detail_lname"));
-                userDetail.setGender( Gender.lookup(resultSet.getString("user_detail_gender")));
+                userDetail.setGender(Gender.lookup(resultSet.getString("user_detail_gender")));
                 return userDetail;
             }
         });
@@ -64,9 +70,9 @@ public class UserDetailRepository extends BaseRepository {
     public User.UserDetail update(User.UserDetail userDetail) {
 
         try {
-            if(namedParameterJdbcTemplate.update(UPDATE_BY_USER_ID_SQL, new EnumBeanPropParamSource(userDetail))==0)
+            if (namedParameterJdbcTemplate.update(UPDATE_BY_USER_ID_SQL, new EnumBeanPropParamSource(userDetail)) == 0)
                 throw new GowmaServiceRuntimeException(GowmaServiceExceptionCode.CFG_GENERIC_INVALID_ID);
-             userDetail = getByUserId(userDetail.getUserId());
+            userDetail = getByUserId(userDetail.getUserId());
         } catch (DuplicateKeyException dke) {
             throw dke;
         }

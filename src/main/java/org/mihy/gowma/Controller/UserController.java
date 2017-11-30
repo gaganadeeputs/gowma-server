@@ -35,7 +35,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-public class UserController {
+public class UserController extends AbstractWebResponseController  {
 
     @Autowired
     private UserService userService;

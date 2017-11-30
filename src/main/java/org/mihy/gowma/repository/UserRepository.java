@@ -33,8 +33,8 @@ public class UserRepository extends BaseRepository {
             "VALUES (:email, :mobileNo, :password, :status::status, :createdDate)";
 
     private static final String UPDATE_SQL = "UPDATE gowma_user" +
-            " SET  gowma_user__email=:email, gowma_user__mobile_no=:mobileNo, gowma_user__password_hash=:password, gowma_user__status=:status::status" +
-            ", gowma_user__last_modified_date=:lastModifiedDate, gowma_user__last_modified_by=:lastModifiedBy" +
+            " SET  gowma_user__email=:email, gowma_user__mobile_no=:mobileNo, gowma_user__password_hash=:password," +
+            " gowma_user__status=:status::status, gowma_user__last_modified_date=:lastModifiedDate, gowma_user__last_modified_by=:lastModifiedBy" +
             " WHERE id=:id";
 
     private static String SELECT_BY_ID_SQL = "SELECT * FROM gowma_user WHERE id=:id";
@@ -84,7 +84,7 @@ public class UserRepository extends BaseRepository {
             }
         });
         if (users.isEmpty())
-            throw new GowmaServiceRuntimeException(GowmaServiceExceptionCode.CFG_GENERIC_INVALID_ID,"user");
+            throw new GowmaServiceRuntimeException(GowmaServiceExceptionCode.CFG_GENERIC_INVALID_ID,"Invalid User ID");
         User user = users.get(0);
         user.setUserDetail(userDetailRepository.getByUserId(userId));
         user.setRoles(userRoleMappingRepository.getByUserId(userId));
@@ -118,7 +118,7 @@ public class UserRepository extends BaseRepository {
     public User findByEmail(String email) {
 
         Map<String, Object> paramNameToValuesMap = new HashMap<>();
-        paramNameToValuesMap.put("gowma_user__email", email);
+        paramNameToValuesMap.put("email", email);
         List<User> users = namedParameterJdbcTemplate.query(FIND_BY_EMAIL_SQL, paramNameToValuesMap, new RowMapper<User>() {
             @Override
             public User mapRow(ResultSet resultSet, int i) throws SQLException {

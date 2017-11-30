@@ -27,20 +27,21 @@ public class UserAddressRepository extends BaseRepository {
             "VALUES (:userId, :addressCode.id, :addressType::address_type, :addressName, :address1, :address2, :landmark, :phoneNo, :isDefault,:createdDate)";
 
     private static final String UPDATE_BY_USER_ID_SQL = "UPDATE user_addresses" +
-            "SET  user_address__address_code=addressCode.id, user_address__address_type=addressType::address_type, user_address_name=:addressName," +
+            " SET  user_address__address_code=addressCode.id, user_address__address_type=addressType::address_type, user_address_name=:addressName," +
             " user_address__address1=:address1, user_address__address2=:address2, user_address__landmark=:landmark, user_address__phone_no=:phoneNo, user_address__is_default=:isDefault," +
             " user_address__last_modified_date=:lastModifiedDate" +
-            "WHERE user_address__user_id=:userId";
+            " WHERE user_address__user_id=:userId";
 
     private static final String SELECT_BY_USER_ID_SQL = "SELECT * from user_addresses,address_code,state,country " +
-            "WHERE user_addresses.user_address__address_code_id=address_code.id " +
-            "AND  address_code.address_code__state_id=state.id " +
-            "AND state.state__country_id=country.id " +
-            "AND user_address__user_id=:userId";
+            " WHERE user_addresses.user_address__address_code_id=address_code.id " +
+            " AND  address_code.address_code__state_id=state.id " +
+            " AND state.state__country_id=country.id " +
+            " AND user_address__user_id=:userId";
 
     private static final String SOFT_DELETE_BY_USER_ID_SQL = "UPDATE  user_addresses set user_detail__is_deleted=true WHERE user_address__user_id=:userId";
 
-    private static final String SOFT_DELETE_BY_ID_AND_USER_ID_SQL = "UPDATE  user_addresses set user_detail__is_deleted=true WHERE id=:id AND user_address__user_id=:userId ";
+    private static final String SOFT_DELETE_BY_ID_AND_USER_ID_SQL = "UPDATE  user_addresses set user_detail__is_deleted=true" +
+            " WHERE id=:id AND user_address__user_id=:userId ";
 
 
     public List<UserAddress> create(List<UserAddress> userAddresses) {

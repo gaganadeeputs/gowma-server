@@ -20,7 +20,7 @@ public class SecureUser implements UserDetails {
 
     public SecureUser(User user) {
         if (user == null) {
-            throw new UsernameNotFoundException("UserRequest not found");
+            throw new UsernameNotFoundException("User not found");
         } else {
             this.user = user;
             authorities.add(new SimpleGrantedAuthority("ROLE_CLIENT"));
