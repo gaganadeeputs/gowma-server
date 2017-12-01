@@ -22,7 +22,7 @@ public class FileController {
     FileService fileService;
 
 
-    @ApiOperation(value = "upload a list of files")
+    @ApiOperation(value = "upload a list of files to aws s3")
     @PostMapping(EndPoints.File.ROOT)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)

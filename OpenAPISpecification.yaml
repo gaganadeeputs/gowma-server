@@ -20,47 +20,75 @@ tags:
     description: Product Controller
   - name: tax-detail-controller
     description: Tax Detail Controller
+  - name: file-controller
+    description: File Controller
+  - name: address-code-controller
+    description: Address Code Controller
   - name: product-category-controller
     description: Product Category Controller
   - name: user-controller
     description: User Controller
 paths:
-  /api/v1/offers:
+  /api/v1/address-code:
     get:
       tags:
-        - offer-controller
-      summary: Get a list of offers for category and product id
-      operationId: getOffersForCategoryIdNProductIdUsingGET
+        - address-code-controller
+      summary: Get a Address information based on code
+      operationId: getAddressCodeForCodeUsingGET
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
-        - name: offer-category-id
+        - name: address-code
           in: query
-          description: offer-category-id
+          description: address-code
           required: true
-          type: integer
-          format: int32
-        - name: offer-product-id
-          in: query
-          description: offer-product-id
-          required: false
-          type: integer
-          format: int32
+          type: string
       responses:
         '200':
           description: OK
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Offer'
+            $ref: '#/definitions/AddressCode'
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
         '404':
           description: Not Found
+  /api/v1/files:
+    post:
+      tags:
+        - file-controller
+      summary: upload a list of files
+      operationId: uploadFileUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: files
+          in: query
+          description: files
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: csv
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/File'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/offers:
     post:
       tags:
         - offer-controller
@@ -153,7 +181,9 @@ paths:
     get:
       tags:
         - product-category-controller
-      summary: Get a list of product categories for a parent category id if not provided will return all root levels
+      summary: >-
+        Get a list of product categories for a parent category id if not
+        provided will return all root levels
       operationId: getProductCategoriesForParentUsingGET
       consumes:
         - application/json
@@ -1388,6 +1418,33 @@ definitions:
         type: string
       stateName:
         type: string
+  File:
+    type: object
+    properties:
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      name:
+        type: string
+      path:
+        type: string
+      size:
+        type: integer
+        format: int64
   Offer:
     type: object
     properties:
@@ -1476,8 +1533,8 @@ definitions:
       id:
         type: integer
         format: int32
-      imgUrl:
-        type: string
+      imgFile:
+        $ref: '#/definitions/File'
       lastModifiedBy:
         type: integer
         format: int32
@@ -1526,8 +1583,8 @@ definitions:
       id:
         type: integer
         format: int32
-      imageUrl:
-        type: string
+      imgFile:
+        $ref: '#/definitions/File'
       lastModifiedBy:
         type: integer
         format: int32
