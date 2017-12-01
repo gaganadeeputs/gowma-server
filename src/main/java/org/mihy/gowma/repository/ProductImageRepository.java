@@ -5,6 +5,7 @@
 package org.mihy.gowma.repository;
 
 import org.mihy.gowma.config.EnumBeanPropParamSource;
+import org.mihy.gowma.model.File;
 import org.mihy.gowma.model.ProductImage;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,15 +18,13 @@ import java.util.List;
 @Repository
 public class ProductImageRepository extends BaseRepository {
 
-    private static final Integer NEW_ROW = 0;
-
     private static final String INSERT_SQL = "INSERT INTO product_images(" +
-            " product_images__product_id, product_images__image_url, product_images_order_no)" +
-            "VALUES (:productId, :imageUrl, :orderNo)";
+            " product_images__product_id, product_images__image_file_id, product_images_order_no)" +
+            "VALUES (:productId, :imgFile.id, :orderNo)";
 
 
     private static final String UPDATE_SQL = "UPDATE  product_images SET product_images__product_id=:productId," +
-            " product_images__image_url=:imageUrl, product_images_order_no=:orderNo" +
+            " product_images__image_file_id=:imgFile.id, product_images_order_no=:orderNo" +
             " WHERE id=:id";
 
     private static final String SOFT_DELETE_BY_PRODUCT_ID = "UPDATE  product_images SET product_images__is_deleted=true " +
@@ -37,7 +36,8 @@ public class ProductImageRepository extends BaseRepository {
 
     private static final String SOFT_DELETE_BY_ID = "UPDATE product_images SET product__images_is_deleted=true where  id=:id";
 
-    private final String SELECT_BY_PRODUCT_ID = "SELECT * from product_images WHERE product_images__product_id=:productId" +
+    private final String SELECT_BY_PRODUCT_ID = "SELECT * from product_images pi INNER JOIN file f ON pi.product_images__image_file_id=f.id" +
+            " WHERE product_images__product_id=:productId" +
             " ORDER BY product_images_order_no ASC";
 
 
@@ -94,7 +94,12 @@ public class ProductImageRepository extends BaseRepository {
         public ProductImage mapRow(ResultSet rs, int rowNum) throws SQLException {
             ProductImage productImage = new ProductImage();
             productImage.setId(rs.getInt("id"));
-            productImage.setImageUrl(rs.getString("product_images__image_url"));
+            File file = new File();
+            file.setId(rs.getInt("product_images__image_file_id"));
+            file.setPath(rs.getString("file__path"));
+            file.setName("file__name");
+            file.setSize(rs.getLong("file__size"));
+            productImage.setImgFile(file);
             productImage.setOrderNo(rs.getInt("product_images_order_no"));
             return productImage;
         }

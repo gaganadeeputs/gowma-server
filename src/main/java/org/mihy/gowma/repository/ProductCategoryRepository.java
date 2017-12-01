@@ -7,6 +7,7 @@ package org.mihy.gowma.repository;
 import org.mihy.gowma.config.EnumBeanPropParamSource;
 import org.mihy.gowma.exception.GowmaServiceExceptionCode;
 import org.mihy.gowma.exception.GowmaServiceRuntimeException;
+import org.mihy.gowma.model.File;
 import org.mihy.gowma.model.ProductCategory;
 import org.mihy.gowma.model.search.ProductCategorySearchRequest;
 import org.mihy.gowma.repository.querybuilder.ProductCategoryQueryBuilder;
@@ -25,18 +26,18 @@ import java.util.Optional;
 public class ProductCategoryRepository extends BaseRepository {
 
 
-    private final String SELECT_BY_PARENT_CATEGORY_ID = "SELECT * FROM product_category WHERE product_category__parent_id=:parentCategoryId";
+    private final String SELECT_BY_PARENT_CATEGORY_ID = "SELECT * FROM product_category pc LEFT OUTER JOIN file ON pc.product_category__image_file_id=file.id WHERE product_category__parent_id=:parentCategoryId";
 
-    private final String SELECT_WHERE_PARENT_CATEGORY_ID_IS_NULL = "SELECT * FROM product_category WHERE product_category__parent_id is null";
+    private final String SELECT_WHERE_PARENT_CATEGORY_ID_IS_NULL = "SELECT * FROM product_category pc LEFT OUTER JOIN file ON pc.product_category__image_file_id=file.id WHERE product_category__parent_id is null";
 
     private final String INSERT_SQL = "INSERT INTO product_category( " +
             "product_category__parent_id, product_category__name, product_category__description, " +
-            "product_category__image_url, product_category__order_no, product_category__enabled) " +
-            "VALUES (:parentCategoryId, :name, :description, :imgUrl, :orderNo, :enabled)";
+            "product_category__image_file_id, product_category__order_no, product_category__enabled) " +
+            "VALUES (:parentCategoryId, :name, :description, :imgFile.id, :orderNo, :enabled)";
 
     private final String UPDATE_BY_ID_SQL = "UPDATE product_category " +
             " SET product_category__parent_id=:parentCategoryId, product_category__name=:name, product_category__description=:description, " +
-            "product_category__image_url=:imgUrl, product_category__order_no=:orderNo, product_category__enabled=:enabled " +
+            "product_category__image_file_id=:imgFile.id, product_category__order_no=:orderNo, product_category__enabled=:enabled " +
             " WHERE id=:id";
 
     private final String SOFT_DELETE_BY_ID_SQL = "UPDATE product_category " +
@@ -80,7 +81,7 @@ public class ProductCategoryRepository extends BaseRepository {
     public List<ProductCategory> findAll(ProductCategorySearchRequest productCategorySearchRequest) {
         List<Object> preparedStatementValues = new ArrayList<>();
         String searchQuery = productCategoryQueryBuilder.buildSearchQuery(productCategorySearchRequest, preparedStatementValues);
-        List<ProductCategory> productCategories = namedParameterJdbcTemplate.getJdbcOperations().query(searchQuery,preparedStatementValues.toArray(), new ProductCategoryRowMapper());
+        List<ProductCategory> productCategories = namedParameterJdbcTemplate.getJdbcOperations().query(searchQuery, preparedStatementValues.toArray(), new ProductCategoryRowMapper());
         return productCategories;
     }
 
@@ -93,7 +94,12 @@ public class ProductCategoryRepository extends BaseRepository {
             productCategory.setName(rs.getString("product_category__name"));
             productCategory.setDescription(rs.getString("product_category__description"));
             productCategory.setEnabled(rs.getBoolean("product_category__enabled"));
-            productCategory.setImgUrl(rs.getString("product_category__image_url"));
+            File file = new File();
+            file.setId(rs.getInt("product_category__image_file_id"));
+            file.setPath(rs.getString("file__path"));
+            file.setName("file__name");
+            file.setSize(rs.getLong("file__size"));
+            productCategory.setImgFile(file);
             productCategory.setOrderNo(rs.getInt("product_category__order_no"));
             productCategory.setParentCategoryId(rs.getInt("product_category__parent_id"));
             return productCategory;

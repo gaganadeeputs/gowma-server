@@ -46,6 +46,12 @@ public final class EndPoints {
         public static final String ADDRESS_CODE = "address-code";
     }
 
+
+    public static final class RequestParam {
+
+        public static final String FILES = "files";
+    }
+
     public static final class User {
 
         public static final String ROOT = API_V1_ROOT + "/user";
@@ -60,6 +66,9 @@ public final class EndPoints {
 
     }
 
+    public static final class File {
+        public static final String ROOT = API_V1_ROOT + "/files";
+    }
     public static final class ProductCategory {
 
         public static final String ROOT = API_V1_ROOT + "/product-categories";

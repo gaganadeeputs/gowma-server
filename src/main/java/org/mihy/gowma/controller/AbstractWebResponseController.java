@@ -2,7 +2,7 @@
  * Copyright 2017 mihy,org.
  * All rights reserved.
  */
-package org.mihy.gowma.Controller;
+package org.mihy.gowma.controller;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;

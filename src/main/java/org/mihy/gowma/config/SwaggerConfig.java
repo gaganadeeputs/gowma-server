@@ -23,7 +23,7 @@ public class SwaggerConfig {
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("org.mihy.gowma.Controller"))
+                .apis(RequestHandlerSelectors.basePackage("org.mihy.gowma.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(metaData());

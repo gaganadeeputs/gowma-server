@@ -6,12 +6,16 @@ package org.mihy.gowma.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.validation.constraints.NotNull;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductCategory extends BaseModel {
     private Integer parentCategoryId;
+    @NotNull
     private String name;
     private String description;
-    private String imgUrl;
+    @NotNull
+    private File imgFile;
     private Integer orderNo;
     private boolean enabled;
 
@@ -39,12 +43,12 @@ public class ProductCategory extends BaseModel {
         this.description = description;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public File getImgFile() {
+        return imgFile;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setImgFile(File imgFile) {
+        this.imgFile = imgFile;
     }
 
     public Integer getOrderNo() {

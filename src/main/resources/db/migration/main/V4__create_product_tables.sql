@@ -1,10 +1,22 @@
-﻿CREATE TABLE product_category
+﻿CREATE TABLE file
+(
+    id SERIAL PRIMARY KEY,
+    file_name VARCHAR NOT NULL,
+    file__path VARCHAR NOT NULL,
+    file__size bigint NULL,
+    file__last_modified_date timestamp default NULL,
+    file__created_by integer REFERENCES gowma_user NULL,
+    file__last_modified_by integer REFERENCES gowma_user NULL,
+    file__is_deleted  boolean NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE product_category
  (
     id SERIAL PRIMARY KEY,
     product_category__parent_id integer REFERENCES product_category,
     product_category__name VARCHAR NOT NULL,
     product_category__description VARCHAR ,
-    product_category__image_url VARCHAR ,
+    product_category__image_file_id integer REFERENCES file ,
     product_category__order_no integer NOT NULL,
     product_category__enabled boolean NOT NULL DEFAULT FALSE,
     product_category__created_date timestamp default NULL,
@@ -32,8 +44,8 @@ CREATE TABLE product
     product__unit_of_measure_id integer REFERENCES unit_of_measure NOT NULL,
     product__name VARCHAR NOT NULL,
     product__price NUMERIC(10, 2) NOT NULL,
-    product__caption VARCHAR NOT NULL,
-    product__description VARCHAR NOT NULL,
+    product__caption VARCHAR  NULL,
+    product__description VARCHAR  NULL,
     product__view_count integer NOT NULL DEFAULT 0,
     product__is_active boolean NOT NULL DEFAULT TRUE,
     product__created_date timestamp default NULL,
@@ -47,7 +59,7 @@ CREATE TABLE product_images
 (
     id SERIAL PRIMARY KEY,
     product_images__product_id integer REFERENCES product NOT NULL,
-    product_images__image_url VARCHAR NOT NULL,
+    product_images__image_file_id integer REFERENCES file,
     product_images_order_no integer NOT NULL,
     product_images__created_date timestamp default NULL,
     product_images__last_modified_date timestamp default NULL,
@@ -147,3 +159,4 @@ CREATE TABLE user_shopping_cart_items
     user_shopping_cart_items__last_modified_by integer REFERENCES gowma_user NULL,
     user_shopping_cart_items__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
+

@@ -2,7 +2,7 @@
  * Copyright 2017 mihy,org.
  * All rights reserved.
  */
-package org.mihy.gowma.Controller;
+package org.mihy.gowma.controller;
 
 import io.swagger.annotations.ApiOperation;
 import org.mihy.gowma.constants.EndPoints;

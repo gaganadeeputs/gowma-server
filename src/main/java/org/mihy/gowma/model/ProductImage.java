@@ -4,18 +4,22 @@
  */
 package org.mihy.gowma.model;
 
+import javax.validation.constraints.NotNull;
+
 public class ProductImage extends BaseModel {
 
-    private String imageUrl;
+    @NotNull
+    private File imgFile;
     private Integer orderNo;
     private Integer productId;
 
-    public String getImageUrl() {
-        return imageUrl;
+
+    public File getImgFile() {
+        return imgFile;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImgFile(File imgFile) {
+        this.imgFile = imgFile;
     }
 
     public Integer getOrderNo() {
