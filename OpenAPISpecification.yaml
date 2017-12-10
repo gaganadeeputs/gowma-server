@@ -60,7 +60,7 @@ paths:
     post:
       tags:
         - file-controller
-      summary: upload a list of files
+      summary: upload a list of files to aws s3
       operationId: uploadFileUsingPOST
       consumes:
         - application/json
@@ -73,8 +73,8 @@ paths:
           required: true
           type: array
           items:
-            type: string
-          collectionFormat: csv
+            type: file
+          collectionFormat: multi
       responses:
         '201':
           description: Created
@@ -116,6 +116,90 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+  /api/v1/offers/_search:
+    post:
+      tags:
+        - offer-controller
+      summary: UnAssign a offer by id to either category or product id
+      operationId: performSearchUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: offerSearchRequest
+          description: offerSearchRequest
+          required: true
+          schema:
+            $ref: '#/definitions/OfferSearchRequest'
+      responses:
+        '201':
+          description: Created
+        '204':
+          description: No Content
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Offer'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/offers/assign:
+    post:
+      tags:
+        - offer-controller
+      summary: Assign a offer by id to either category or product id
+      operationId: assignOfferUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: offerMapping
+          description: offerMapping
+          required: true
+          schema:
+            $ref: '#/definitions/OfferMapping'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/OfferMapping'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/v1/offers/unassign:
+    delete:
+      tags:
+        - offer-controller
+      summary: UnAssign a offer by id to either category or product id
+      operationId: unAssignOfferUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: offerMapping
+          description: offerMapping
+          required: true
+          schema:
+            $ref: '#/definitions/OfferMapping'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
   '/api/v1/offers/{offer-id}':
     put:
       tags:
@@ -171,8 +255,6 @@ paths:
       responses:
         '204':
           description: No Content
-          schema:
-            $ref: '#/definitions/User'
         '401':
           description: Unauthorized
         '403':
@@ -181,9 +263,7 @@ paths:
     get:
       tags:
         - product-category-controller
-      summary: >-
-        Get a list of product categories for a parent category id if not
-        provided will return all root levels
+      summary: Get a list of product categories for a parent category id if not provided will return all root levels
       operationId: getProductCategoriesForParentUsingGET
       consumes:
         - application/json
@@ -1476,6 +1556,68 @@ definitions:
       validTo:
         type: string
         format: date-time
+  OfferMapping:
+    type: object
+    properties:
+      categoryId:
+        type: integer
+        format: int32
+      createdBy:
+        type: integer
+        format: int32
+      createdDate:
+        type: string
+        format: date-time
+      deleted:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      lastModifiedBy:
+        type: integer
+        format: int32
+      lastModifiedDate:
+        type: string
+        format: date-time
+      offerId:
+        type: integer
+        format: int32
+      productId:
+        type: integer
+        format: int32
+  OfferSearchRequest:
+    type: object
+    properties:
+      categoryId:
+        type: integer
+        format: int32
+      higherPercentage:
+        type: number
+        format: double
+      lowerPercentage:
+        type: number
+        format: double
+      name:
+        type: string
+      pageNumber:
+        type: integer
+        format: int32
+      pageSize:
+        type: integer
+        format: int32
+      productId:
+        type: integer
+        format: int32
+      sorts:
+        type: array
+        items:
+          $ref: '#/definitions/SortField'
+      validFrom:
+        type: string
+        format: date-time
+      validTo:
+        type: string
+        format: date-time
   Product:
     type: object
     properties:
@@ -1494,7 +1636,7 @@ definitions:
         format: date-time
       deleted:
         type: boolean
-      description:
+      details:
         type: string
       id:
         type: integer
@@ -1730,6 +1872,9 @@ definitions:
   TaxDetail:
     type: object
     properties:
+      categoryId:
+        type: integer
+        format: int32
       createdBy:
         type: integer
         format: int32
@@ -1750,6 +1895,9 @@ definitions:
       percentage:
         type: number
         format: double
+      productId:
+        type: integer
+        format: int32
       taxType:
         $ref: '#/definitions/TaxType'
   TaxType:

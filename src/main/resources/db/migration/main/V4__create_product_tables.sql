@@ -98,8 +98,8 @@ CREATE TABLE tax_type
 CREATE TABLE tax_details
 (
     id SERIAL PRIMARY KEY,
-    product_tax_detail__product_id integer REFERENCES product NOT NULL,
-    product_tax_detail__category_id integer REFERENCES product_category NOT NULL,
+    product_tax_detail__product_id integer REFERENCES product NULL,
+    product_tax_detail__category_id integer REFERENCES product_category NULL,
     product_tax_details__tax_type_id integer REFERENCES tax_type NOT NULL,
     product_tax_details__tax_percentage  NUMERIC(10, 2)  NULL,
     product_tax_details__created_date timestamp default NULL,
@@ -126,9 +126,9 @@ CREATE TABLE offer
 CREATE TABLE offer_mapping
 (
     id SERIAL PRIMARY KEY,
+    offer_mapping__offer_id integer REFERENCES offer NOT NULL ,
     offer_mapping__product_id integer REFERENCES product NOT NULL,
-    offer_mapping__offer_id integer REFERENCES offer NOT NULL,
-    offer_mapping__category_id integer REFERENCES product_category NOT NULL,
+    offer_mapping__category_id integer REFERENCES product_category  NULL,
     offer_mapping__created_date timestamp default NULL,
     offer_mapping__last_modified_date timestamp default NULL,
     offer_mapping__created_by integer REFERENCES gowma_user NULL,

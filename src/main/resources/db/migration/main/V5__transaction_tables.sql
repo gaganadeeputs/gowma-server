@@ -5,6 +5,8 @@ CREATE TABLE gowma_order
     gowma_order__no  VARCHAR NOT NULL,
     gowma_order__date timestamp NOT NULL,
     gowma_order__status order_status NOT NULL,
+    gowma_order__user_id REFERENCES gowma_user NOT NULL
+    gowma_order__user_address_id REFERENCES user_addresses NOT NULL,
     gowma_order__created_date timestamp default NULL,
     gowma_order__last_modified_date timestamp default NULL,
     gowma_order__created_by integer REFERENCES gowma_user NULL,
@@ -12,20 +14,20 @@ CREATE TABLE gowma_order
     gowma_order__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE order_details
+CREATE TABLE order_item
 (
     id SERIAL PRIMARY KEY,
-    order_details__order_id integer REFERENCES gowma_order NOT NULL,
-    order_details__product_id integer REFERENCES product NOT NULL,
-    order_details__offer_id integer REFERENCES offer NOT NULL,
-    order_details__quantity NUMERIC(10, 2) NOT NULL,
-    order_details__unit_price NUMERIC(10, 2) NOT NULL,
-    order_details__total_amount NUMERIC(10, 2) NOT NULL,
-    order_details__created_date timestamp default NULL,
-    order_details__last_modified_date timestamp default NULL,
-    order_details__created_by integer REFERENCES gowma_user NULL,
-    order_details__last_modified_by integer REFERENCES gowma_user NULL,
-    order_details__is_deleted  boolean NOT NULL DEFAULT FALSE
+    order_item__order_id integer REFERENCES gowma_order NOT NULL,
+    order_item__product_id integer REFERENCES product NOT NULL,
+    order_item__offer_id integer REFERENCES offer NOT NULL,
+    order_item__quantity NUMERIC(10, 2) NOT NULL,
+    order_item__unit_price NUMERIC(10, 2) NOT NULL,
+    order_item__total_amount NUMERIC(10, 2) NOT NULL,
+    order_item__created_date timestamp default NULL,
+    order_item__last_modified_date timestamp default NULL,
+    order_item__created_by integer REFERENCES gowma_user NULL,
+    order_item__last_modified_by integer REFERENCES gowma_user NULL,
+    order_item__is_deleted  boolean NOT NULL DEFAULT FALSE
 );
 
 CREATE TYPE payment_mode AS ENUM ('ONLINE', 'OFF_LINE');

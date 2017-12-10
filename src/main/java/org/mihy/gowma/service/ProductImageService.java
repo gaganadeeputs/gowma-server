@@ -23,6 +23,7 @@ public class ProductImageService {
     }
 
     public List<ProductImage> getAllProductImagesByProductId(Integer productId) {
+
         return productImageRepository.getByProductId(productId);
     }
 

@@ -1,12 +1,20 @@
 INSERT INTO public.role(id,
 	role__name, role__description)
-	VALUES (100000,'CUSTOMER', 'Cutsomer role description' );
+	VALUES (100000,'CUSTOMER', 'Cutsomer role details' );
 
     INSERT INTO public.role(id,
 	role__name, role__description)
-	VALUES (100001,'ADMIN', 'Admin role description' );
+	VALUES (100001,'ADMIN', 'Admin role details' );
 
-    INSERT INTO gowma_user (id,gowma_user__email,gowma_user__mobile_no,gowma_user__password_hash,gowma_user__status) values (100000,'gagandeepts@gmail.com','8971993015','ddddddddd','ACTIVE');
+	 INSERT INTO public.role(id,
+	role__name, role__description)
+	VALUES (100002,'ROOT', 'Root role details' );
+
+    INSERT INTO gowma_user (id,gowma_user__email,gowma_user__mobile_no,gowma_user__password_hash,gowma_user__status)
+     values (100000,'gagandeepts@gmail.com','8971993015','ddddddddd','ACTIVE');
+
+ INSERT INTO gowma_user (id,gowma_user__email,gowma_user__mobile_no,gowma_user__password_hash,gowma_user__status)
+     values (100001,'Root@gowmaserice.com','8971993016','$2a$10$d4woY/0JOt/MAyaasnSlhOpxDDkUpWLp3HvGDSY8Biyzj3zoUS2Xu','ACTIVE');
 
 
 	INSERT INTO user_detail(id,user_detail_user_id, user_detail_fname, user_detail_lname, user_detail_gender)

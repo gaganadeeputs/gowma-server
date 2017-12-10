@@ -81,7 +81,7 @@ public class ProductWishListRepository extends BaseRepository {
             Product product = new Product();
             product.setId(rs.getInt("user_shopping_cart_items__product_id"));
             product.setName(rs.getString("product__name"));
-            product.setDescription(rs.getString("product__description"));
+            product.setDetails(rs.getString("product__description"));
             product.setCaption(rs.getString("product__caption"));
             product.setPrice(rs.getDouble("product__price"));
             product.setViewCount(rs.getInt("product__view_count"));

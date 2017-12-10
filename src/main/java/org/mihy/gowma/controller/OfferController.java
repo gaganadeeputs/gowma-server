@@ -7,7 +7,8 @@ package org.mihy.gowma.controller;
 import io.swagger.annotations.ApiOperation;
 import org.mihy.gowma.constants.EndPoints;
 import org.mihy.gowma.model.Offer;
-import org.mihy.gowma.model.User;
+import org.mihy.gowma.model.OfferMapping;
+import org.mihy.gowma.model.search.OfferSearchRequest;
 import org.mihy.gowma.service.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,23 +23,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-public class OfferController extends AbstractWebResponseController  {
+public class OfferController extends AbstractWebResponseController {
 
     @Autowired
     private OfferService offerService;
 
-  /*  @ApiOperation(value = "Get a list of offers for category and product id")
-    @GetMapping(EndPoints.Offer.ROOT)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    public List<Offer> getOffersForCategoryIdNProductId(@RequestParam(value = EndPoints.QueryParam.OFFER_CATEGORY_ID) Integer categoryId,
-                                                        @RequestParam(value = EndPoints.QueryParam.OFFER_PRODUCT_ID, required = false) Integer productId) {
-
-        return offerService.getOffersForCategoryIdNProductId(categoryId, productId);
-    }
-*/
     @ApiOperation(value = "Create a offer")
     @PostMapping(EndPoints.Offer.ROOT)
     @ResponseBody
@@ -53,15 +46,36 @@ public class OfferController extends AbstractWebResponseController  {
     @ResponseStatus(HttpStatus.OK)
     public Offer updateProduct(@PathVariable(EndPoints.PathVariable.OFFER_ID) Integer offerId,
                                @RequestBody Offer offer) {
-        return offerService.update(offerId, offer);
+        offer.setId(offerId);
+        return offerService.update(offer);
     }
 
-    @ApiOperation(value = "Delete a offer by id", response = User.class)
+    @ApiOperation(value = "Delete a offer by id")
     @DeleteMapping(EndPoints.Offer.OFFER_WITH_ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable(EndPoints.PathVariable.OFFER_ID) Integer offerId) {
         offerService.delete(offerId);
     }
 
+    @ApiOperation(value = "Assign a offer by id to either category or product id")
+    @PostMapping(EndPoints.Offer.OFFER_ASSIGN)
+    @ResponseStatus(HttpStatus.CREATED)
+    public OfferMapping assignOffer(@RequestBody OfferMapping offerMapping) {
+        return offerService.assignOffer(offerMapping);
+    }
+
+    @ApiOperation(value = "UnAssign a offer by id to either category or product id")
+    @DeleteMapping(EndPoints.Offer.OFFER_UNASSIGN)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void unAssignOffer(@RequestBody OfferMapping offerMapping) {
+        offerService.unAssignOffer(offerMapping);
+    }
+
+    @ApiOperation(value = "UnAssign a offer by id to either category or product id")
+    @PostMapping(EndPoints.Offer.OFFER_SEARCH)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public List<Offer> performSearch(@RequestBody OfferSearchRequest offerSearchRequest) {
+        return offerService.searchOffers(offerSearchRequest);
+    }
 
 }

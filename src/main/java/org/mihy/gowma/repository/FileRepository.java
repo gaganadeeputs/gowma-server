@@ -10,6 +10,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.mihy.gowma.config.EnumBeanPropParamSource;
 import org.mihy.gowma.model.File;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -67,23 +68,15 @@ public class FileRepository extends BaseRepository {
 
 
     public File create(File file) {
-        super.insert(file, INSERT_SQL, new EnumBeanPropParamSource(file));
+        super.insert(file, INSERT_SQL, new BeanPropertySqlParameterSource(file));
         return file;
     }
 
     public File update(File file) {
-        EnumBeanPropParamSource paramSource = new EnumBeanPropParamSource(file);
+        BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(file);
         namedParameterJdbcTemplate.update(UPDATE_BY_ID_SQL, paramSource);
         return file;
     }
 
-    public java.io.File multipartToFile(MultipartFile multipart) {
-        java.io.File convFile = new java.io.File(multipart.getOriginalFilename());
-        try {
-            multipart.transferTo(convFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return convFile;
-    }
+
 }

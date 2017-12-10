@@ -90,10 +90,25 @@ public final class QueryBuildingUtilities {
         return queryExpression.toString();
     }
 
-    public String getFieldsGreaterThanOrEqualQueryClause(String fieldName, boolean isWhereClauseRequired, boolean isAndClauseRequired) {
+    public static String getFieldsGreaterThanOrEqualQueryClause(String fieldName, boolean isWhereClauseRequired, boolean isAndClauseRequired) {
 
         StringBuilder queryExpression = new StringBuilder();
         queryExpression.append(fieldName + ">=?");
+        if (isWhereClauseRequired) {
+            queryExpression.insert(0, " WHERE ");
+        }
+        if (isAndClauseRequired) {
+            queryExpression.insert(0, " AND ");
+        }
+        return queryExpression.toString();
+
+    }
+
+
+    public static String  getFieldsLessThanOrEqualQueryClause(String fieldName, boolean isWhereClauseRequired, boolean isAndClauseRequired) {
+
+        StringBuilder queryExpression = new StringBuilder();
+        queryExpression.append(fieldName + "<=?");
         if (isWhereClauseRequired) {
             queryExpression.insert(0, " WHERE ");
         }

@@ -14,10 +14,9 @@ public class ProductCategory extends BaseModel {
     @NotNull
     private String name;
     private String description;
-    @NotNull
     private File imgFile;
     private Integer orderNo;
-    private boolean enabled;
+    private Boolean enabled;
 
     public Integer getParentCategoryId() {
         return parentCategoryId;
@@ -59,12 +58,12 @@ public class ProductCategory extends BaseModel {
         this.orderNo = orderNo;
     }
 
-    public boolean isEnabled() {
+
+    public Boolean getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
-
 }

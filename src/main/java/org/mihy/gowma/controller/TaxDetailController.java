@@ -39,7 +39,7 @@ public class TaxDetailController extends AbstractWebResponseController  {
     public List<TaxDetail> getTaxDetailsForCategoryIdNProductId(@RequestParam(value = EndPoints.QueryParam.OFFER_CATEGORY_ID) Integer categoryId,
                                                                 @RequestParam(value = EndPoints.QueryParam.OFFER_PRODUCT_ID, required = false) Integer productId) {
 
-        return taxDetailService.getTaxDetailsForCategoryIdNProductId(categoryId, productId);
+        return taxDetailService.getTaxDetailsForCategoryIdRProductId(categoryId, productId);
     }
 
     @ApiOperation(value = "Create a tax detail")

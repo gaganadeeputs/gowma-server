@@ -13,17 +13,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SecureUser implements UserDetails {
+public class AuthenticatedUser implements UserDetails {
     private static final long serialVersionUID = -8756608845278722035L;
     private final User user;
     private final List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-    public SecureUser(User user) {
+    public AuthenticatedUser(User user) {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         } else {
             this.user = user;
-            authorities.add(new SimpleGrantedAuthority("ROLE_CLIENT"));
+            user.getRoles().forEach(role ->authorities.add(new SimpleGrantedAuthority(role.getName())));
         }
     }
 

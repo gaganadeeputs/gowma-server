@@ -38,8 +38,14 @@ public class ProductCategoryQueryBuilder {
         if (productCategorySearchRequest.getEnabled() != null) {
             String fieldLevelQueryClause = QueryBuildingUtilities.getFieldEqualsQueryClause("pc.product_category__enabled", isWhereClauseRequired, isAndClauseRequired);
             preparedStatementValues.add(productCategorySearchRequest.getEnabled());
+            isWhereClauseRequired = false;
+            isAndClauseRequired = true;
             searchQuery.append(fieldLevelQueryClause);
         }
+
+        String fieldLevelQueryClause = QueryBuildingUtilities.getFieldEqualsQueryClause("pc.product_category__is_deleted", isWhereClauseRequired, isAndClauseRequired);
+        preparedStatementValues.add(false);
+        searchQuery.append(fieldLevelQueryClause);
 
         searchQuery.append(QueryBuildingUtilities.buildOrderByClause(productCategorySearchRequest,"pc.id"));
         searchQuery.append(QueryBuildingUtilities.buildPaginationClause(productCategorySearchRequest,preparedStatementValues));

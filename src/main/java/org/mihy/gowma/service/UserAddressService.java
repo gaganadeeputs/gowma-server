@@ -18,7 +18,7 @@ public class UserAddressService {
     private UserAddressRepository userAddressRepository;
 
     public List<UserAddress> getAddressesForUserId(Integer userId) {
-       return userAddressRepository.getByUserId(userId);
+        return userAddressRepository.getByUserId(userId);
     }
 
     public UserAddress createAddress(UserAddress userAddress) {
@@ -30,7 +30,6 @@ public class UserAddressService {
     }
 
     public void deleteForUserIdNAddressId(Integer userId, Integer addressId) {
-         userAddressRepository.deleteByIdNUserId(userId,addressId);
-
+        userAddressRepository.deleteByIdNUserId(userId, addressId);
     }
 }

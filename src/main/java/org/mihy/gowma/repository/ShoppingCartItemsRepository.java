@@ -6,10 +6,8 @@ package org.mihy.gowma.repository;
 
 import org.mihy.gowma.config.EnumBeanPropParamSource;
 import org.mihy.gowma.model.Product;
-import org.mihy.gowma.model.ProductImage;
 import org.mihy.gowma.model.ShoppingCartItem;
 import org.mihy.gowma.model.UnitOfMeasure;
-import org.mihy.gowma.model.User;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -90,7 +88,7 @@ public class ShoppingCartItemsRepository extends BaseRepository {
             Product product = new Product();
             product.setId(rs.getInt("user_shopping_cart_items__product_id"));
             product.setName(rs.getString("product__name"));
-            product.setDescription(rs.getString("product__description"));
+            product.setDetails(rs.getString("product__description"));
             product.setCaption(rs.getString("product__caption"));
             product.setPrice(rs.getDouble("product__price"));
             product.setViewCount(rs.getInt("product__view_count"));

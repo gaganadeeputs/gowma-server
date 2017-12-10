@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 
 public class Offer extends BaseModel {
 
-    private Integer productId;
-    private Integer categoryId;
     private String name;
     private double percentage;
     private LocalDateTime validFrom;

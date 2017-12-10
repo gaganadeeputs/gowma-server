@@ -4,7 +4,6 @@
  */
 package org.mihy.gowma.repository.querybuilder;
 
-import org.mihy.gowma.model.search.BaseSearchRequest;
 import org.mihy.gowma.model.search.ProductSearchRequest;
 import org.mihy.gowma.utilities.QueryBuildingUtilities;
 import org.springframework.stereotype.Component;
@@ -59,8 +58,14 @@ public class ProductQueryBuilder {
             String fieldLevelQueryClause = QueryBuildingUtilities.getFieldsBetweenQueryClause("p.product__price", isWhereClauseRequired, isAndClauseRequired);
             preparedStatementValues.add(lowerPrice);
             preparedStatementValues.add(higherPrice);
+            isWhereClauseRequired = false;
+            isAndClauseRequired = true;
             searchQuery.append(fieldLevelQueryClause);
         }
+
+        String fieldLevelQueryClause = QueryBuildingUtilities.getFieldEqualsQueryClause("p.product__is_deleted", isWhereClauseRequired, isAndClauseRequired);
+        preparedStatementValues.add(false);
+        searchQuery.append(fieldLevelQueryClause);
 
         searchQuery.append(QueryBuildingUtilities.buildOrderByClause(productSearchRequest,"p.id"));
         searchQuery.append(QueryBuildingUtilities.buildPaginationClause(productSearchRequest,preparedStatementValues));

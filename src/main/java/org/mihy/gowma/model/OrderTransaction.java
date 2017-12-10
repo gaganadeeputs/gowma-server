@@ -9,7 +9,15 @@ public class OrderTransaction extends BaseModel {
 
     private PaymentDetail paymentDetail;
     private String orderTxnId;
-    private OrderShippingDetail orderShippingDetail;
+    private Integer orderId;
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
 
     public PaymentDetail getPaymentDetail() {
         return paymentDetail;
@@ -27,12 +35,5 @@ public class OrderTransaction extends BaseModel {
         this.orderTxnId = orderTxnId;
     }
 
-    public OrderShippingDetail getOrderShippingDetail() {
-        return orderShippingDetail;
-    }
-
-    public void setOrderShippingDetail(OrderShippingDetail orderShippingDetail) {
-        this.orderShippingDetail = orderShippingDetail;
-    }
 
 }

@@ -27,22 +27,29 @@ import java.util.List;
 public class ProductRepository extends BaseRepository {
 
 
-    private final String SELECT_BY_PARENT_CATEGORY_ID = "SELECT * FROM product p INNER JOIN unit_of_measure uof ON uof.id=p.product__unit_of_measure_id WHERE product__category_id=:categoryId";
+    private final String SELECT_BY_PARENT_CATEGORY_ID = "SELECT * FROM product p" +
+            " INNER JOIN unit_of_measure uof ON uof.id=p.product__unit_of_measure_id " +
+            " WHERE p.product__category_id=:categoryId" +
+            " AND p.product__is_deleted=false";
 
     private final String INSERT_SQL = "INSERT INTO product(product__category_id, product__unit_of_measure_id, " +
-            "product__name, product__price, product__caption, product__description, product__is_active)" +
-            "VALUES (:categoryId, :unitOfMeasure.id,:name, :price,:caption, :description, :active)";
+            "product__name, product__price, product__caption, product__description, product__is_active ," +
+            "product__created_date,product__created_by)" +
+            "VALUES (:categoryId, :unitOfMeasure.id,:name, :price,:caption, :details, :active , :createdDate ,:createdBy)";
 
     private final String UPDATE_BY_ID_SQL = "UPDATE product " +
-            "SET product__category_id=:categoryId, product__unit_of_measure_id=:unitOfMeasure.id, product__name=:name, " +
-            "product__price=:price, product__caption=:caption, product__description=:description,product__is_active=:active " +
-            " where id=:id";
+            " SET product__category_id=:categoryId, product__unit_of_measure_id=:unitOfMeasure.id, product__name=:name, " +
+            " product__price=:price, product__caption=:caption, product__description=:details,product__is_active=:active " +
+            " product__last_modified_date=:lastModifiedDate,product__last_modified_by=:lastModifiedBy" +
+            " WHERE id=:id";
 
     private final String SOFT_DELETE_BY_ID_SQL = "UPDATE product " +
-            "SET product__is_deleted=true where id=:id";
+            " SET product__is_deleted=true where id=:id";
 
 
-    private final String SELECT_BY_ID = "SELECT * FROM product p INNER JOIN unit_of_measure uof ON uof.id=product__unit_of_measure_id WHERE p.id=:id";
+    private final String SELECT_BY_ID = "SELECT * FROM product p INNER JOIN unit_of_measure uof ON uof.id=product__unit_of_measure_id " +
+            " WHERE p.id=:id" +
+            " AND p.product__is_deleted=false";
 
     @Autowired
     private ProductQueryBuilder productQueryBuilder;
@@ -63,6 +70,7 @@ public class ProductRepository extends BaseRepository {
         return product;
     }
 
+
     public Product create(Product product) {
         super.insert(product, INSERT_SQL, new EnumBeanPropParamSource(product));
         return product;
@@ -78,7 +86,7 @@ public class ProductRepository extends BaseRepository {
     public List<Product> findAll(ProductSearchRequest productSearchRequest) {
         List<Object> preparedStatementValues = new ArrayList<>();
         String searchQuery = productQueryBuilder.buildSearchQuery(productSearchRequest, preparedStatementValues);
-        List<Product> products = namedParameterJdbcTemplate.getJdbcOperations().query(searchQuery,preparedStatementValues.toArray(), new productRowMapper());
+        List<Product> products = namedParameterJdbcTemplate.getJdbcOperations().query(searchQuery, preparedStatementValues.toArray(), new productRowMapper());
         return products;
     }
 
@@ -87,7 +95,7 @@ public class ProductRepository extends BaseRepository {
         paramNameToValueMap.addValue("id", productId);
         List<Product> products = namedParameterJdbcTemplate.query(SELECT_BY_ID, paramNameToValueMap, new productRowMapper());
         if (products.isEmpty())
-            throw new GowmaServiceRuntimeException(GowmaServiceExceptionCode.CFG_GENERIC_INVALID_ID);
+            throw new GowmaServiceRuntimeException(GowmaServiceExceptionCode.CFG_GENERIC_INVALID_ID,productId);
         return products.get(0);
     }
 
@@ -98,7 +106,7 @@ public class ProductRepository extends BaseRepository {
             Product product = new Product();
             product.setId(rs.getInt("id"));
             product.setName(rs.getString("product__name"));
-            product.setDescription(rs.getString("product__description"));
+            product.setDetails(rs.getString("product__description"));
             product.setCaption(rs.getString("product__caption"));
             product.setPrice(rs.getDouble("product__price"));
             product.setViewCount(rs.getInt("product__view_count"));

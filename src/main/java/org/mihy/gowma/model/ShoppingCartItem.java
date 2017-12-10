@@ -4,6 +4,9 @@
  */
 package org.mihy.gowma.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShoppingCartItem extends BaseModel {
 
     private Product product;

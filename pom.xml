@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
 
     <name>gowma-service</name>
-    <description> Restfull webservices for gowma shopping cart</description>
+    <details> Restfull webservices for gowma shopping cart</details>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

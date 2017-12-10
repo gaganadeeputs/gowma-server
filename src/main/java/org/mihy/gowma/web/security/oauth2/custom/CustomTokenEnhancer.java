@@ -1,7 +1,6 @@
 package org.mihy.gowma.web.security.oauth2.custom;
 
-import org.mihy.gowma.model.SecureUser;
-import org.mihy.gowma.model.User;
+import org.mihy.gowma.model.AuthenticatedUser;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -14,7 +13,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        SecureUser user = (SecureUser) authentication.getPrincipal();
+        AuthenticatedUser user = (AuthenticatedUser) authentication.getPrincipal();
         final Map<String, Object> additionalInfo = new HashMap<>();
 
         additionalInfo.put("id", user.getId());

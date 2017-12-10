@@ -16,7 +16,10 @@ public final class WebResponseBuilder {
     }
 
     public static WebResponseBuilder aGlobalErrorResponse(ExceptionCode exceptionCode, Object[] arguments) {
-        String message = String.format(exceptionCode.getMessage(), arguments);
+        String message = exceptionCode.getMessage();
+        if (arguments != null && arguments.length > 1) {
+            message = String.format(exceptionCode.getMessage(), arguments);
+        }
         return new WebResponseBuilder(exceptionCode, message);
     }
 

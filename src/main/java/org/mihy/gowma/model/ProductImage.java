@@ -4,8 +4,11 @@
  */
 package org.mihy.gowma.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.validation.constraints.NotNull;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductImage extends BaseModel {
 
     @NotNull

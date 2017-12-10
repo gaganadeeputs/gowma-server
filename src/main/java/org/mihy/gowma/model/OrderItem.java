@@ -4,13 +4,22 @@
  */
 package org.mihy.gowma.model;
 
-public class OrderDetail extends BaseModel {
+public class OrderItem extends BaseModel {
 
+    private Integer orderId;
     private Product product;
     private Offer offer;
     private double quantity;
     private double unitPrice;
     private double totalAmount;
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
 
     public Product getProduct() {
         return product;
